@@ -7,7 +7,7 @@ import { path } from "core/constants";
 import PageNotFound from "modules/PageNotFound";
 import PageServerError from "modules/PageServerError";
 import Banner from "modules/Banner/Banner";
-import { MainSystem, System } from "modules/System";
+import { MainSystem } from "modules/System";
 import { News } from "modules/News";
 import Introduction from "modules/introduce/Introduce";
 import { WhyChoose } from "modules/WhyChoose";

@@ -14,7 +14,7 @@ interface Props {
 export default function KeyTitle({ keyTitle, keyQuery, keyUrl }: Props) {
   console.log(keyTitle);
   const [form] = Form.useForm();
-  const { data: byId, isLoading } = useQuery({
+  const { data: byId } = useQuery({
     queryKey: [keyQuery],
     queryFn: () => {
       return api.getKeyTitle(keyTitle);

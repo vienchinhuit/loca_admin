@@ -4,13 +4,13 @@ import { toast } from "react-toastify";
 import Ckeditor from "../components/Ckeditor";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { UploadOutlined } from "@ant-design/icons";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import api from "../api";
 import { News } from "../type";
 import { HttpStatusCode, path, txt } from "core/constants";
 import { useNavigate } from "react-router-dom";
 const { TextArea } = Input;
-const { Option } = Select;
+// const { Option } = Select;
 export default function CreateNews() {
   const [imageUrl, setImageUrl] = useState<string>("");
   const [fileImg, setFileImg] = useState<File>();
