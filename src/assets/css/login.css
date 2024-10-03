@@ -1,0 +1,36 @@
+.login_page {
+  width: 550px;
+  justify-content: center;
+  align-items: center;
+  /* text-align: center; */
+}
+.background {
+  min-width: 100vh;
+  min-height: 100vh;
+  background-color: #FFF;
+}
+.login_page .ant-form-item {
+  margin-bottom: 0;
+}
+.btn-login.ant-btn.ant-btn-default[disabled] {
+  background-color: #3DAD59;
+  opacity: 0.5;
+}
+.btn-login.ant-btn.ant-btn-default {
+  background-color: #3DAD59;
+}
+.btn-login.ant-btn.ant-btn-default:hover {
+  background-color: #3DAD59;
+  opacity: 0.8;
+}
+.btn-login.ant-btn.ant-btn-default[disabled]:hover {
+  background-color: #3DAD59; 
+  opacity: 0.8;
+  cursor: not-allowed; 
+}
+.btn-login .ant-input-affix-wrapper .ant-input-suffix {
+  font-size: 20px;
+}
+.btn-login .ant-form-item .ant-form-item-explain-error {
+  padding: 3px 0 0 5px;
+}

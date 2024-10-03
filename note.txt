@@ -1,0 +1,93 @@
+// import React, { useState } from "react";
+// import {
+//   Document,
+//   Page,
+//   Text,
+//   View,
+//   StyleSheet,
+//   PDFDownloadLink,
+//   PDFViewer,
+//   Font,
+//   Image,
+// } from "@react-pdf/renderer";
+// import Roboto from "/fonts/Roboto-Thin.ttf";  
+// // Định nghĩa các styles cho tài liệu PDF
+// // Đăng ký font tùy chỉnh
+// // Đăng ký font Roboto với hỗ trợ tiếng Việt từ URL
+// Font.register({
+//   family: "Roboto",
+//   fonts: [
+//     {
+//         src: Roboto
+//     }
+//   ]
+// });
+
+// const styles = StyleSheet.create({
+//   page: {
+//     flexDirection: "column",
+//     backgroundColor: "#E4E4E4",
+//   },
+//   section: {
+//     margin: 10,
+//     padding: 10,
+//     fontSize: 12,
+//     fontFamily: "Roboto", // Sử dụng font Roboto
+//   },
+//   title: {
+//     fontSize: 24,
+//     textAlign: "center",
+//     marginBottom: 20,
+//     fontFamily: "Roboto", // Sử dụng font Roboto
+//   },
+//   description: {
+//     fontSize: 15,
+//     // textAlign: "center",
+//     marginBottom: 20,
+//     fontFamily: "Roboto", // Sử dụng font Roboto
+//   },
+// });
+
+// // Tạo component tài liệu PDF
+// const MyPDFDocument: React.FC<{ name: string }> = ({ name }) => (
+//   <Document>
+//     <Page style={styles.page}>
+//       <View>
+//         <Text style={styles.title}>Xin chào, {name}!</Text>
+//       </View>
+//       <View style={styles.section}>
+//         <Image src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQttqDH9owa5Sx65Az3f6dXKBI7ZRTDXd1gGTijnkKbeqtvoyk2QeP50uF9WQ&s'}></Image>
+//         <Text style={styles.title}>Lâm Lại Gia Bảo</Text>
+//         <Text style={styles.description}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur maxime eum a. Voluptatum, reiciendis soluta? Fugiat enim consectetur omnis natus corrupti cupiditate quos laborum dolore ex tempora. Corporis, nostrum numquam!</Text>
+//       </View>
+//     </Page>
+//   </Document>
+// );
+
+export default function PageBuilding() {
+  const [name, setName] = useState<string>("");
+  return (
+    <div>
+      <h1>Tạo và Tải về PDF</h1>
+      <input
+        type="text"
+        placeholder="Nhập tên"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+
+      {/* Xem trước PDF */}
+      <PDFViewer width={600} height={400}>
+        <MyPDFDocument name={name} />
+      </PDFViewer>
+
+      {/* Nút tải về PDF */}
+      <PDFDownloadLink
+        document={<MyPDFDocument name={name} />}
+        fileName="example.pdf"
+      >
+        {({ loading }) => (loading ? "Đang tạo PDF..." : "Tải về PDF")}
+      </PDFDownloadLink>
+    </div>
+  );
+}

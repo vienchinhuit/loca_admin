@@ -1,0 +1,13 @@
+{
+  "files": [],
+  
+  "compilerOptions": { 
+    "baseUrl": "./src", // Đặt baseUrl để xác định thư mục gốc cho các đường dẫn tương đối
+    "skipLibCheck": true
+  },
+  
+  "references": [
+    {"path": "./tsconfig.app.json"},
+    {"path": "./tsconfig.node.json"}
+  ]
+}

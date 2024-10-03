@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body, html {
+  /* font-family: "Roboto", sans-serif !important; */
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+  font-weight: 400 !important;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 1.2;
+}
+input {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+}
+/* header  */
+.header{
+  position: fixed;
+  width: 100%;
+}
+/* custom scrollbar */
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+.ant-tabs-content:hover ::-webkit-scrollbar, .ant-spin-container:hover ::-webkit-scrollbar {
+  height: 12px;
+}
+.sideBar:hover ::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background-color: #f2f2f2;
+  display: none;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #ddd;
+  border-radius: 20px;
+  border: 3px solid #f2f2f2;
+  cursor: pointer;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #ddd;
+  border-color: #f2f2f2;
+}
