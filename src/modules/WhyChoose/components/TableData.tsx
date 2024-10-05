@@ -1,10 +1,12 @@
 import {
   Empty,
+  Input,
   Popconfirm,
   Spin,
   Table,
   TableColumnsType,
   TableProps,
+  Tooltip,
 } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { iconPng } from "core/constants";
@@ -33,6 +35,7 @@ interface Props {
     number,
     unknown
   >;
+  onChangeSort: (id: number, sortValue: number) => void;
   showDrawer: (idEdit?: number) => void;
   isLoading: boolean;
 }
@@ -44,6 +47,7 @@ export default function TableData({
   selectedRowKeys,
   setSelectedRowKeys,
   isLoading,
+  onChangeSort,
 }: Props) {
   const columns: TableColumnsType<DataType> = [
     {
@@ -52,15 +56,11 @@ export default function TableData({
       width: 150,
       className: "row_content",
       render: (_text, record) => (
-        <img
-          className="w-20 object-fit mx-auto"
-          src={record.thumb}
-          alt=""
-        />
+        <img className="w-20 object-fit mx-auto" src={record.thumb} alt="" />
       ),
     },
     {
-      title: `Tieu de`,
+      title: `Tiêu đề`,
       dataIndex: "name",
       width: 200,
     },
@@ -68,17 +68,36 @@ export default function TableData({
       title: `Nội dung`,
       dataIndex: "des",
       width: 700,
+      render: (_text, record) => (
+        <Tooltip
+          title={record.des}
+          overlayStyle={{ maxWidth: "700px" }}
+          color="#87d068"
+          key={record.id}
+        >
+          <div className="line-clamp-1">{record.des}</div>
+        </Tooltip>
+      ),
     },
     {
-      title: `Ngày tạo`,
-      dataIndex: "created_at",
-      className: "row_content",
+      title: `Thứ tự`,
+      dataIndex: "sort",
+      width: 80,
+      render: (_text, record) => (
+        <input
+          defaultValue={record.sort}
+          type="number"
+          onChange={(e) => onChangeSort(record.id, Number(e.target.value))}
+          className="text-right w-16 py-1 outline-none border-[1px] border-gray-200"
+        />
+      ),
     },
     {
-      title: "Kích hoạt",
+      title: "Hiển thị/Ẩn",
       dataIndex: "publish",
       className: "row_content",
       key: "publish",
+      width: 100,
       render: (_text, record) => (
         <div className="">
           <input
@@ -90,10 +109,16 @@ export default function TableData({
       ),
     },
     {
+      title: `Ngày tạo`,
+      dataIndex: "created_at",
+      className: "row_content",
+    },
+    {
       title: "Tính năng",
       dataIndex: "action",
       className: "row_content",
       key: "action",
+      width: 180,
       render: (_text, record) => (
         <div className=" mr-5">
           <button
@@ -131,7 +156,7 @@ export default function TableData({
     <div className="table w-full mt-3 relative">
       <Table
         rowSelection={rowSelection}
-        bordered={true}
+        // bordered={true}
         columns={columns}
         dataSource={dataSource}
         pagination={false}

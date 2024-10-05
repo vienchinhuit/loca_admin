@@ -21,7 +21,6 @@ export default function FormInput({ form, onFinish, id, onClose }: Props) {
   //   refetchOnWindowFocus: true,
   //   refetchOnReconnect: true,
   // });
-  // console.log(byIdData);
 
   // useEffect(() => {
   //   if (id) {

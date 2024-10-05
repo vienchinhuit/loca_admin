@@ -1,4 +1,12 @@
-import { Empty, Popconfirm, Spin, Table, TableColumnsType, TableProps } from "antd";
+import {
+  Empty,
+  Popconfirm,
+  Spin,
+  Table,
+  TableColumnsType,
+  TableProps,
+  Tooltip,
+} from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { iconPng } from "core/constants";
 import { UseMutationResult } from "@tanstack/react-query";
@@ -7,7 +15,8 @@ import { ResponseData } from "core/types/utils.type";
 import { DataType } from "../type";
 import { Loading } from "core/components";
 
-type TableRowSelection<T extends object = object> = TableProps<T>["rowSelection"];
+type TableRowSelection<T extends object = object> =
+  TableProps<T>["rowSelection"];
 interface Props {
   selectedRowKeys: React.Key[];
   setSelectedRowKeys: React.Dispatch<React.SetStateAction<React.Key[]>>;
@@ -26,6 +35,9 @@ interface Props {
     unknown
   >;
   showDrawer: (idEdit?: number) => void;
+  onChangeSort: (id: number, sortValue: number) => void;
+  // setSort: React.Dispatch<React.SetStateAction<undefined>>
+  // sort: number | undefined
   isLoading: boolean;
 }
 export default function TableData({
@@ -35,6 +47,9 @@ export default function TableData({
   showDrawer,
   selectedRowKeys,
   setSelectedRowKeys,
+  onChangeSort,
+  // setSort,
+  // sort,
   isLoading,
 }: Props) {
   const columns: TableColumnsType<DataType> = [
@@ -45,16 +60,40 @@ export default function TableData({
     {
       title: `Nội dung`,
       dataIndex: "des",
+      width: 700,
+      render: (_text, record) => (
+        <Tooltip
+          title={record.des}
+          overlayStyle={{ maxWidth: "700px" }}
+          color="#87d068"
+          key={record.id}
+        >
+          <div className="line-clamp-1">{record.des}</div>
+        </Tooltip>
+      ),
     },
     {
-      title: "Kích hoạt",
+      title: `Thứ tự`,
+      dataIndex: "sort",
+      width: 80,
+      render: (_text, record) => (
+        <input
+          defaultValue={record.sort}
+          type="number"
+          onChange={(e) => onChangeSort(record.id, Number(e.target.value))}
+          className="text-right w-16 py-1 outline-none border-[1px] border-gray-200"
+        />
+      ),
+    },
+    {
+      title: "Hiển thị/Ẩn",
       dataIndex: "publish",
       className: "row_content",
-      key: "status",
+      key: "publish",
       render: (_text, record) => (
         <div className="">
           <input
-            checked={record.status}
+            checked={record.publish}
             type="checkbox"
             onChange={() => updatePublishMutation.mutate(record.id)}
           />
@@ -67,7 +106,7 @@ export default function TableData({
       className: "row_content",
       key: "action",
       width: 200,
-      render: (_text,record) => (
+      render: (_text, record) => (
         <div className=" mr-5">
           <button
             onClick={() => showDrawer(record.id)}
@@ -84,7 +123,7 @@ export default function TableData({
             icon={<QuestionCircleOutlined style={{ color: "red" }} />}
           >
             <button className="p-2 text-[#F00] hover:text-[#8E0002]">
-            <img src={iconPng.icTrash} width={16} />
+              <img src={iconPng.icTrash} width={16} />
             </button>
           </Popconfirm>
         </div>
@@ -102,27 +141,27 @@ export default function TableData({
   };
   return (
     <div className="table w-full mt-3 relative">
-        <Table
-          rowSelection={rowSelection}
-          bordered={true}
-          columns={columns}
-          dataSource={dataSource}
-          pagination={false}
-          className="min-h-10"
-          locale={{
-            emptyText: (
-              isLoading? 
-              <></>
-               : <Empty
-               image={Empty.PRESENTED_IMAGE_SIMPLE}
-               description="Dữ liệu rỗng"
-             />
-            ),
-          }}
-        />
-        {isLoading && (
+      <Table
+        rowSelection={rowSelection}
+        bordered={true}
+        columns={columns}
+        dataSource={dataSource}
+        pagination={false}
+        className="min-h-10"
+        locale={{
+          emptyText: isLoading ? (
+            <></>
+          ) : (
+            <Empty
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+              description="Dữ liệu rỗng"
+            />
+          ),
+        }}
+      />
+      {isLoading && (
         <div className="loading-overlay">
-          <Spin indicator={<Loading />}/>
+          <Spin indicator={<Loading />} />
         </div>
       )}
     </div>

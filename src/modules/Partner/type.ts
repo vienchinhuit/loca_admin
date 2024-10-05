@@ -1,7 +1,21 @@
+export interface KeyTitle {
+  name: string;
+  des: string;
+}
+export interface KeyTitleConfig {
+  key: string;
+  content: {
+    name: string;
+    des: string
+  };
+  updated_at: Date;
+}
+
 export interface Driver {
     file: File
     name: string
     des: string
+    sort: string
   }
   export interface Config {
     id: number;
@@ -9,6 +23,7 @@ export interface Driver {
     thumb: string
     name: string
     des: string
+    sort: string
     publish: number
     created_at: Date;
   }
@@ -25,4 +40,5 @@ export interface Driver {
     publish: boolean
     thumb: string
     created_at: string;
+    sort: string
   }

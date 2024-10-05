@@ -12,7 +12,7 @@ interface Props {
   onClose: () => void;
 }
 export default function FormInput({ form, onFinish, id, onClose }: Props) {
-  const queryById = "userById"
+  const queryById = "userById";
   const { data: byId, isLoading } = useQuery({
     queryKey: [queryById, id],
     queryFn: () => {
@@ -98,11 +98,7 @@ export default function FormInput({ form, onFinish, id, onClose }: Props) {
           >
             <Input />
           </Form.Item>
-          <Form.Item
-            label={`Nội dung`}
-            name="content"
-            className="mt-1"
-          >
+          <Form.Item label={`Nội dung`} name="content" className="mt-1">
             <TextArea
               showCount
               maxLength={350}
@@ -112,17 +108,8 @@ export default function FormInput({ form, onFinish, id, onClose }: Props) {
             />
           </Form.Item>
           <Form.Item
-            name="publish"
-            label=""
-            className="mt-2"
-            layout="horizontal"
-            valuePropName="checked" // Để làm việc với giá trị boolean
-          >
-            <Checkbox defaultChecked={true}>Kích hoạt</Checkbox>
-          </Form.Item>
-          <Form.Item
             wrapperCol={{ offset: 8, span: 16 }}
-            className="text-right mt-[15px]"
+            className="text-right mt-[20px]"
           >
             <Button className="bg-white" onClick={onClose}>
               Hủy

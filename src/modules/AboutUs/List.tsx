@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import {
   FormInput,
+  ModalNotification,
   MultipleAction,
   Search,
   TableData,
@@ -31,20 +32,20 @@ export default function Item() {
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState<string>("");
   const [fileImg, setFileImg] = useState<File>();
-  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // const showModal = () => {
-  //   setIsModalOpen(true);
-  // };
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
 
-  // const handleOk = () => {
-  //   setIsModalOpen(false);
-  // };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
 
-  // const handleCancel = () => {
-  //   setIsModalOpen(false);
-  //   setOption("Chọn thao tác");
-  // };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    setOption("Chọn thao tác");
+  };
   const showDrawer = (idEdit?: number) => {
     setOpen(true);
     setId(idEdit);
@@ -102,6 +103,7 @@ export default function Item() {
         id: item.id,
         name: item.name,
         des: item.des,
+        sort: item.sort,
         publish: item.publish === 1 ? true : false,
         thumb: `${import.meta.env.VITE_BASE_URL_IMAGE}/${item.thumb}`,
         created_at: formatDate(item.created_at),
@@ -120,18 +122,18 @@ export default function Item() {
       toast.error(txt.DELETE_FAILED);
     },
   });
-  // const deleteAllMutation = useMutation({
-    // mutationFn: (ids: any) => api.deleteAll(ids),
-    // onSuccess: async (res) => {
-    //   await resetQuery();
-    //   handleCancel();
-    //   setSelectedRowKeys([]);
-    //   toast.success(res.data.message);
-    // },
-    // onError: () => {
-    //   toast.error(txt.DELETE_FAILED);
-    // },
-  // });
+  const deleteAllMutation = useMutation({
+    mutationFn: (ids: any) => api.deleteAll(ids),
+    onSuccess: async (res) => {
+      await resetQuery();
+      handleCancel();
+      setSelectedRowKeys([]);
+      toast.success(res.data.message);
+    },
+    onError: () => {
+      toast.error(txt.DELETE_FAILED);
+    },
+  });
 
   // Create
   const create = useMutation({
@@ -160,6 +162,7 @@ export default function Item() {
           // resetQuery();
           refetch()
           setFileImg(undefined)
+          setImageUrl("")
         } else {
           const formError = res.data.errors;
           if (formError) {
@@ -204,6 +207,7 @@ export default function Item() {
           refetch()
           setId(undefined);
           setFileImg(undefined);
+          setImageUrl("")
           form.resetFields();
         } else {
           const formError = res.data.errors;
@@ -231,21 +235,30 @@ export default function Item() {
       resetQuery();
     },
   });
-  // const updateAllPublishMutation = useMutation({
-    // mutationFn: (publish: number) =>
-    //   api.updatePublishAll(selectedRowKeys as any, publish),
-    // onSuccess: (res) => {
-    //   toast.success(res.data.message);
-    //   handleCancel();
-    //   setSelectedRowKeys([]);
-    //   resetQuery();
-    // },
-  // });
+
+  const updateSort = useMutation({
+    mutationFn: ({ id, sort }: { id: number | string; sort: number | string }) =>
+      api.updateSort(id, sort),
+  });
+  const onChangeSort = (id: number, sortValue: number,) => {
+    updateSort.mutate({ id, sort: sortValue });
+  };
+  const updateAllPublishMutation = useMutation({
+    mutationFn: (publish: number) =>
+      api.updatePublishAll(selectedRowKeys as any, publish),
+    onSuccess: (res) => {
+      toast.success(res.data.message);
+      handleCancel();
+      setSelectedRowKeys([]);
+      resetQuery();
+    },
+  });
+
 
   const [option, setOption] = useState<string>("Chọn thao tác");
   const selectedMultipleAction = (values: any) => {
     setOption(values);
-    // showModal();
+    showModal();
   };
 
   return (
@@ -273,6 +286,7 @@ export default function Item() {
           selectedRowKeys={selectedRowKeys}
           setSelectedRowKeys={setSelectedRowKeys}
           isLoading={isLoading}
+          onChangeSort={onChangeSort}
         />
 
         {Data?.data.pagination && (
@@ -312,7 +326,7 @@ export default function Item() {
           />
         )}
       </Drawer>
-      {/* <ModalNotification
+      <ModalNotification
         isModalOpen={isModalOpen}
         handleOk={handleOk}
         handleCancel={handleCancel}
@@ -320,7 +334,7 @@ export default function Item() {
         selectedRowKeys={selectedRowKeys}
         updateAllPublishMutation={updateAllPublishMutation}
         deleteAllMutation={deleteAllMutation}
-      /> */}
+      />
     </div>
   );
 }

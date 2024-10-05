@@ -14,7 +14,6 @@ export default function Pagination({ queryConfig, pageSize, path }: Props) {
   const page = Number(queryConfig.page);
   const [limit, setLimit] = useState(queryConfig.limit);
   const onChangeLimit = async (e: any) => {
-    // console.log(e);
     setLimit(e);
     await navigate({
       pathname: path,

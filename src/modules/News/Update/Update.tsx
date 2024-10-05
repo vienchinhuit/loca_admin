@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Image, Input, Upload } from "antd";
+import { Button, Checkbox, Form, Image, Input, Select, Upload } from "antd";
 import { useEffect, useState } from "react";
 import Ckeditor from "../components/Ckeditor";
 import { InfoCircleOutlined } from "@ant-design/icons";
@@ -8,20 +8,21 @@ import { toast } from "react-toastify";
 import { HttpStatusCode, path, txt } from "core/constants";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import api from "../api";
+import apiCategory from "modules/Category/api";
 import { News } from "../type";
+const { Option } = Select;
 const { TextArea } = Input;
 export default function Update() {
   const navigate = useNavigate();
-  const { slug } = useParams();
+  const { id } = useParams();
   const [form] = Form.useForm();
   const [imageUrl, setImageUrl] = useState<string>("");
   const [fileImg, setFileImg] = useState<File>();
   const [editorData, setEditorData] = useState<string>("");
-  const [id, setId] = useState<number>();
   const { data: byId } = useQuery({
     queryKey: ["newById"],
     queryFn: () => {
-      return api.getBySlug(slug as string);
+      return api.getById(id as string);
     },
     staleTime: 0,
   });
@@ -30,11 +31,12 @@ export default function Update() {
   useEffect(() => {
     form.resetFields();
     if (news) {
-      setImageUrl(`${import.meta.env.VITE_BASE_URL_IMAGE}/${news.image_url}`);
+      if (news.image_url) {
+        setImageUrl(`${import.meta.env.VITE_BASE_URL_IMAGE}/${news.image_url}`);
+      }
       if (news.content) {
         setEditorData(news.content);
       }
-      setId(news.id);
       form.setFieldsValue({
         title: news?.title,
         heading: news?.heading,
@@ -42,10 +44,20 @@ export default function Update() {
         meta_keywords: news?.meta_keywords,
         meta_description: news?.meta_description,
         publish: news?.publish,
+        category_id: news?.category_id != 0 ? news?.category_id : undefined,
+        // category_id: news?.category_id
         // Thêm các trường khác nếu cần
       });
     }
-  }, [slug, form, news]);
+  }, [form, news]);
+
+  const { data: DataCategory } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => {
+      return apiCategory.getAll({ publish: 1 });
+    },
+  });
+  const dataListCategory = DataCategory?.data.data;
 
   const handleUpload = (file: File) => {
     // Kiểm tra định dạng file (chỉ cho phép PNG và JPG)
@@ -132,17 +144,9 @@ export default function Update() {
             </p>
           </div>
           <div className="border-[1px] border-gray-300 h-[300px] flex items-center justify-center relative">
-            <div className="absolute">
-              {imageUrl && (
-                <Image
-                  // width={500} // Chiều rộng cố định 500px
-                  width="60%"
-                  className="object-contain"
-                  src={imageUrl} // URL của ảnh đã chọn
-                  alt="Uploaded Image"
-                />
-              )}
-            </div>
+            {imageUrl && (
+              <Image height={300} src={imageUrl} alt="Uploaded Image" />
+            )}
           </div>
           <div className="w-[100%] relative">
             <Upload
@@ -156,10 +160,18 @@ export default function Update() {
               </Button>
             </Upload>
           </div>
+          <Form.Item label={`Danh mục`} name="category_id" className="mt-12">
+            <Select placeholder="Chọn danh mục">
+              {dataListCategory?.map((category) => (
+                <Option key={category.id} value={category.id}>
+                  {category.heading}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
           <Form.Item
             label={`Tiêu đề`}
             name="heading"
-            className="mt-12"
             rules={[{ required: true, message: "Dữ liệu không được để trống" }]}
           >
             <Input />
@@ -231,7 +243,7 @@ export default function Update() {
             layout="horizontal"
             valuePropName="checked" // Để làm việc với giá trị boolean
           >
-            <Checkbox defaultChecked={true}>Hoạt động</Checkbox>
+            <Checkbox defaultChecked={true}>Hiển thị</Checkbox>
           </Form.Item>
         </div>
       </div>
@@ -249,7 +261,7 @@ export default function Update() {
         >
           Hủy
         </Button>
-        <Button type="primary" htmlType="submit" className="ml-3">
+        <Button htmlType="submit" className="ml-3 bg-green text-white">
           Lưu
         </Button>
       </Form.Item>

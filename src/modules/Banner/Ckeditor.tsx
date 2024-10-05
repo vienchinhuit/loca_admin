@@ -232,8 +232,6 @@ export default function Ckeditor() {
 
   // configUpdateAlert(editorConfig);
   const [editorData, setEditorData] = useState<string>("");
-  console.log(editorData);
-  
   return (
     <div>
       <div className="main-container">

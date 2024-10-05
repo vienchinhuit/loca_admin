@@ -15,7 +15,6 @@ interface Props {
   fileImg: File | undefined;
   setFileImg: React.Dispatch<React.SetStateAction<File | undefined>>;
 }
-const { TextArea } = Input;
 export default function FormInput({
   form,
   onFinish,
@@ -120,15 +119,6 @@ export default function FormInput({
             {/* <Form.Item label={`Mô tả`} name="des">
               <Input />
             </Form.Item> */}
-            <Form.Item label={`Mô tả`} name="des" className="mt-1">
-              <TextArea
-                showCount
-                maxLength={350}
-                // onChange={onChange}
-                placeholder="Nội dung"
-                style={{ height: 120, resize: "none" }}
-              />
-            </Form.Item>
             <Form.Item
               wrapperCol={{ offset: 8, span: 16 }}
               className="text-right mt-[25px]"

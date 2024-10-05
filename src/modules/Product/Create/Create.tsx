@@ -111,17 +111,9 @@ export default function CreateProduct() {
             </p>
           </div>
           <div className="border-[1px] border-gray-300 h-[300px] flex items-center justify-center relative">
-            <div className="absolute">
-              {imageUrl && (
-                <Image
-                  // width={500} // Chiều rộng cố định 500px
-                  width="60%"
-                  className="object-contain"
-                  src={imageUrl} // URL của ảnh đã chọn
-                  alt="Uploaded Image"
-                />
-              )}
-            </div>
+            {imageUrl && (
+              <Image height={300} src={imageUrl} alt="Uploaded Image" />
+            )}
           </div>
           <div className="w-[100%] relative">
             <Upload
@@ -160,7 +152,7 @@ export default function CreateProduct() {
             layout="horizontal"
             valuePropName="checked" // Để làm việc với giá trị boolean
           >
-            <Checkbox defaultChecked={true}>Hoạt động</Checkbox>
+            <Checkbox defaultChecked={true}>Hiển thị</Checkbox>
           </Form.Item>
         </div>
       </div>
@@ -182,7 +174,7 @@ export default function CreateProduct() {
         <Button className="bg-white" onClick={() => onCancel()}>
           Hủy
         </Button>
-        <Button type="primary" htmlType="submit" className="ml-3">
+        <Button  htmlType="submit" className="ml-3 bg-green text-white">
           Lưu
         </Button>
       </Form.Item>

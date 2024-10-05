@@ -111,6 +111,8 @@ export default function Content() {
       },
     });
   };
+
+
   return (
     <div className="mx-5">
       <HelmetPage title={`${titlePage}`} content={`Quản lý ${titlePage}`} />
@@ -120,7 +122,7 @@ export default function Content() {
         </div>
       ) : (
         <Form
-          name="form"
+          name="formAboutUs"
           form={form}
           layout="vertical"
           initialValues={{ remember: true }}

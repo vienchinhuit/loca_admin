@@ -58,8 +58,6 @@ class Http {
               throw error;
             }
           } else if (error.response?.status === 423) {
-            console.log(123);
-
             (window.location as any).href = "/login";
             clearCookie("access_token");
             clearCookie("refresh_token");

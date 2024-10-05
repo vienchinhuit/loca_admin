@@ -9,7 +9,7 @@ import {
   Search,
   TableData,
 } from "./components";
-import {  ListConfig, Config} from "./type";
+import { ListConfig, Config } from "./type";
 import { HttpStatusCode, path, txt } from "core/constants";
 import { HelmetPage, Pagination } from "core/components";
 // import { formatDate } from "core/utils/utils";
@@ -19,10 +19,10 @@ import { ResponseData } from "core/types/utils.type";
 import { useQueryConfig } from "./hooks/useQueryConfig";
 
 export default function Menu() {
-  const routePage = `${path.ROUTE_ADMIN}${path.ROUTE_MENU}`
-  const routeOriginalPage = `${path.ROUTE_ADMIN}${path.ROUTE_MENU}`
-  const queryKey = 'menu'
-  const titlePage = txt.SYSTEM_TITLE
+  const routePage = `${path.ROUTE_ADMIN}${path.ROUTE_MENU}`;
+  const routeOriginalPage = `${path.ROUTE_ADMIN}${path.ROUTE_MENU}`;
+  const queryKey = "menu";
+  const titlePage = txt.MENU_TITLE;
   const queryConfig = useQueryConfig();
   const queryClient = useQueryClient();
   const [form] = Form.useForm();
@@ -69,7 +69,6 @@ export default function Menu() {
   });
 
   const dataList = Data?.data.data;
-  // console.log(dataList);
 
   const resetQuery = async () => {
     await refetch();
@@ -100,13 +99,15 @@ export default function Menu() {
         key: item.id,
         id: item.id,
         name: item.name,
+        sort: item.sort,
         link: item.link,
         publish: item.publish === 1 ? true : false,
+        is_main: item.is_main === 1 ? true : false,
+        is_footer: item.is_footer === 1 ? true : false,
       })) || [],
     [dataList]
   );
-    
-  console.log(dataSource);
+
   // Delete
   const deleteMutation = useMutation({
     mutationFn: (id: string | number) => api.delete(id),
@@ -138,8 +139,11 @@ export default function Menu() {
   const onFinishCreate = (values: Config) => {
     const result = {
       name: values.name,
-      link: values.link
-      // publish: values.status === undefined ? 1 : values.status,
+      link: values.link,
+      
+      publish: values.publish === undefined ? 1 : 0,
+      is_main: values.is_main === undefined ? 0 : 1,
+      is_footer: values.is_footer === undefined ? 0 : 1,
     };
     create.mutate(result, {
       onSuccess: (res) => {
@@ -173,8 +177,11 @@ export default function Menu() {
   const onFinishEdit = (values: Config) => {
     const result = {
       name: values.name,
-      link: values.link
-      // publish: values.status === undefined ? 1 : values.status,
+      link: values.link,
+
+      publish: values.publish === undefined ? 1 : values.publish,
+      is_main: values.is_main === undefined ? 0 : values.is_main,
+      is_footer: values.is_footer === undefined ? 0 : values.is_footer,
     };
     update.mutate(result, {
       onSuccess: (res) => {
@@ -210,6 +217,28 @@ export default function Menu() {
       resetQuery();
     },
   });
+  const updatePublishIsMainMutation = useMutation({
+    mutationFn: (id: number) => api.updatePublishIsMain(id),
+    onSuccess: (res) => {
+      toast.success(res.data.message);
+      resetQuery();
+    },
+  });
+  const updatePublishIsFooterMutation = useMutation({
+    mutationFn: (id: number) => api.updatePublishIsFooter(id),
+    onSuccess: (res) => {
+      toast.success(res.data.message);
+      resetQuery();
+    },
+  });
+
+  const updateSort = useMutation({
+    mutationFn: ({ id, sort }: { id: number | string; sort: number | string }) =>
+      api.updateSort(id, sort),
+  });
+  const onChangeSort = (id: number, sortValue: number,) => {
+    updateSort.mutate({ id, sort: sortValue });
+  };
   // const updateAllPublishMutation = useMutation({
   //   // mutationFn: (publish: number) =>
   //   //   api.updatePublishAll(selectedRowKeys as any, publish),
@@ -229,10 +258,7 @@ export default function Menu() {
 
   return (
     <div className="py-5">
-      <HelmetPage
-        title={`${titlePage}`}
-        content={`Quản lý ${titlePage}`}
-      />
+      <HelmetPage title={`${titlePage}`} content={`Quản lý ${titlePage}`} />
       <div className="py-[15px] bg-[#FFFFFF]">
         {selectedRowKeys.length === 0 ? (
           <Search
@@ -256,6 +282,9 @@ export default function Menu() {
           selectedRowKeys={selectedRowKeys}
           setSelectedRowKeys={setSelectedRowKeys}
           isLoading={isLoading}
+          updatePublishIsMainMutation={updatePublishIsMainMutation}
+          updatePublishIsFooterMutation={updatePublishIsFooterMutation}
+          onChangeSort={onChangeSort}
         />
 
         {Data?.data.pagination && (
@@ -266,7 +295,12 @@ export default function Menu() {
           />
         )}
       </div>
-      <Drawer size="default" title={id ? `Cập nhật` : `Thêm`} onClose={onClose} open={open}>
+      <Drawer
+        size="default"
+        title={id ? `Cập nhật` : `Thêm`}
+        onClose={onClose}
+        open={open}
+      >
         {id ? (
           <FormInput
             form={form}

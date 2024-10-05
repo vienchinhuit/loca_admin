@@ -42,8 +42,7 @@ export default function ModalNotification({
   selectedRowKeys,
   deleteAllMutation,
   updateAllPublishMutation,
-}: 
-Props) {
+}: Props) {
   const [fileName, setFileName] = useState<string | null>(null);
   const [file, setFile] = useState<RcFile | null>(null);
   const [errorArrExcel, setErrorArrExcel] = useState<ErrorExcel[]>([]);
@@ -63,13 +62,13 @@ Props) {
                 onClick={() => updateAllPublishMutation.mutate(0)}
                 className="px-4 py-1 border-gray-400 border-[1px] rounded-md hover:bg-gray-200"
               >
-                Ngưng hoạt động
+                Đang ẩn
               </button>
               <button
                 onClick={() => updateAllPublishMutation.mutate(1)}
                 className="px-4 py-1 ml-3 border-gray-400 border-[1px] rounded-md hover:bg-green-100"
               >
-                Đang hoạt động
+                Đang hiển thị
               </button>
             </div>
           </div>
@@ -161,9 +160,9 @@ Props) {
   };
 
   const handleDownload = () => {
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = import.meta.env.VITE_BASE_URL_EXCEL_SAMPLE_PRODUCT; // Đường dẫn tới file Excel trong thư mục public
-    link.download = 'file_mau.xlsx'; // Tên file khi tải về
+    link.download = "file_mau.xlsx"; // Tên file khi tải về
     link.click();
   };
 
@@ -207,10 +206,15 @@ Props) {
           </p>
         </Dragger>
         <div className="no-scrollbar">
-          <div className={classNames('overflow-auto custom-scroll-notification pr-2 my-2', {
-              'h-[300px]': errorArrExcel.length !== 0,
-              '': errorArrExcel.length === 0
-            })} >
+          <div
+            className={classNames(
+              "overflow-auto custom-scroll-notification pr-2 my-2",
+              {
+                "h-[300px]": errorArrExcel.length !== 0,
+                "": errorArrExcel.length === 0,
+              }
+            )}
+          >
             {notificationError !== "" ? (
               <div className="text-red-600 my-3 w-full bg-red-200 rounded-md flex px-5 py-3">
                 {notificationError}
@@ -252,7 +256,6 @@ Props) {
             onClick={importFileExcel}
             className="bg-blue w-24 px-2 py-1 text-white mt-4 rounded-md hover:bg-blue/90"
           >
-            
             Nhập file
           </button>
         </div>

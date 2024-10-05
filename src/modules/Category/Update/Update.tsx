@@ -10,27 +10,23 @@ import api from "../api";
 const { TextArea } = Input;
 export default function UpdateCategory() {
   const navigate = useNavigate();
-  const { slug } = useParams();
+  const { id } = useParams();
   const [form] = Form.useForm();
   const [editorData, setEditorData] = useState<string>("");
-  const [id, setId] = useState<number>();
   const { data: byId } = useQuery({
     queryKey: ["categoryById"],
     queryFn: () => {
-      return api.getBySlug(slug as string);
+      return api.getById(id as string);
     },
     staleTime: 0,
   });
   const category = byId?.data.data;
-console.log(category);
-
   useEffect(() => {
     form.resetFields();
     if (category) {
       if (category.content) {
         setEditorData(category.content);
       }
-      setId(category.id);
       form.setFieldsValue({
         title: category?.title,
         heading: category?.heading,
@@ -41,7 +37,7 @@ console.log(category);
         // Thêm các trường khác nếu cần
       });
     }
-  }, [slug, form, category]);
+  }, [form, category]);
 
   const update = useMutation({
     mutationFn: (body: any) => api.update(id || 0, body),
@@ -124,7 +120,7 @@ console.log(category);
             layout="horizontal"
             valuePropName="checked" // Để làm việc với giá trị boolean
           >
-            <Checkbox defaultChecked={true}>Hoạt động</Checkbox>
+            <Checkbox defaultChecked={true}>Hiển thị</Checkbox>
           </Form.Item>
         </div>
         <div className="col-span-1">
@@ -196,7 +192,7 @@ console.log(category);
         >
           Hủy
         </Button>
-        <Button type="primary" htmlType="submit" className="ml-3">
+        <Button htmlType="submit" className="ml-3 bg-green text-white">
           Lưu
         </Button>
       </Form.Item>

@@ -1,14 +1,30 @@
-export interface System {
+export interface KeyTitle {
+  name: string;
+  des: string;
+  google_map: string
+}
+export interface KeyTitleConfig {
+  key: string;
+  content: {
+    name: string;
+    des: string
+    google_map: string
+  };
+  updated_at: Date;
+}
+export interface Branch {
   id: number;
   name: string;
   des: string;
-  status: number;
+  publish: number;
+  sort: number;
 }
 export interface Config {
   id: number;
   name: string;
   des: string;
-  status: number;
+  publish: number;
+  sort: number;
 }
 export interface ListConfig {
   page?: number
@@ -20,5 +36,7 @@ export interface DataType {
   id: number
   name: string;
   des: string
-  status: boolean
+  publish: boolean
+  sort: number
 }
+

@@ -69,7 +69,7 @@ export default function TableData({
       dataIndex: "phone",
     },
     {
-      title: "Kích hoạt",
+      title: "Hiển thị/Ẩn",
       dataIndex: "publish",
       className: "row_content",
       key: "publish",

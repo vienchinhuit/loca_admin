@@ -29,9 +29,9 @@ const items = [
         path: `${path.ROUTE_ADMIN}${path.ROUTE_DRIVER}`,
       },
       {
-        key: "system",
+        key: "branch",
         label: "- Hệ thống phân phối",
-        path: `${path.ROUTE_ADMIN}${path.ROUTE_SYSTEM}`,
+        path: `${path.ROUTE_ADMIN}${path.ROUTE_BRANCH}`,
       },
       {
         key: "whyChoose",
@@ -47,7 +47,7 @@ const items = [
   },
   {
     key: "aboutUs",
-    icon: <img src={iconPng.icAccount} width={22} />,
+    icon: <img src={iconPng.icInfo} width={22} />,
     label: "Về chúng tôi",
     path: `${path.ROUTE_ADMIN}${path.ROUTE_ABOUT_US}`,
   },
@@ -69,11 +69,11 @@ const items = [
     label: "Bài viết",
     // path: `${path.ROUTE_ADMIN}${path.ROUTE_SW}`,
     children: [
-      // {
-      //   key: "cate_news",
-      //   label: "- Danh mục bài viết",
-      //   path: `${path.ROUTE_ADMIN}${path.ROUTE_CATEGORY}`,
-      // },
+      {
+        key: "cate_news",
+        label: "- Danh mục bài viết",
+        path: `${path.ROUTE_ADMIN}${path.ROUTE_CATEGORY}`,
+      },
       {
         key: "news_list",
         label: "- Danh sách bài viết",
@@ -90,8 +90,8 @@ const items = [
   {
     key: "setting",
     icon: <img src={iconPng.icSettings} width={21} />,
-    label: "Cấu hình",
-    path: `${path.ROUTE_ADMIN}${path.ROUTE_CONTACT}`,
+    label: "Cấu hình chung",
+    path: `${path.ROUTE_ADMIN}${path.ROUTE_SETTING}`,
   },
 ];
 

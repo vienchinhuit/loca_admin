@@ -33,6 +33,7 @@ interface Props {
     number,
     unknown
   >;
+  onChangeSort: (id: number, sortValue: number) => void
   showDrawer: (idEdit?: number) => void;
   isLoading: boolean;
 }
@@ -43,6 +44,7 @@ export default function TableData({
   showDrawer,
   selectedRowKeys,
   setSelectedRowKeys,
+  onChangeSort,
   isLoading,
 }: Props) {
   const columns: TableColumnsType<DataType> = [
@@ -60,18 +62,20 @@ export default function TableData({
       dataIndex: "name",
     },
     {
-      title: `Mô tả`,
-      dataIndex: "des",
-      width: 300,
-      className: "truncate",
-    },
-    {
       title: `Ngày tạo`,
       dataIndex: "created_at",
       className: "row_content",
     },
     {
-      title: "Hiển thị/Ẩn",
+      title: `Thứ tự`,
+      dataIndex: "sort",
+      width: 80,
+      render: (_text, record) => (
+        <input defaultValue={record.sort} type="number" onChange={(e)=> onChangeSort(record.id, Number(e.target.value))} className="text-right w-16 py-1 outline-none border-[1px] border-gray-200"/>
+      ),
+    },
+    {
+      title: "Hiển thị",
       dataIndex: "publish",
       className: "row_content",
       key: "publish",

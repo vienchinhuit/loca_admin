@@ -46,7 +46,7 @@ export default function ModalNotification({
                 onClick={() => updateAllPublishMutation.mutate(1)}
                 className="px-4 py-1 ml-3 border-gray-400 border-[1px] rounded-md hover:bg-green-100"
               >
-                Đang hiển thị
+                Đang hiển thị
               </button>
             </div>
           </div>

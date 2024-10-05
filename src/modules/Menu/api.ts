@@ -29,6 +29,15 @@ const api = {
   updatePublish(id: string | number) {
     return http.put<ResponseData>(`${URL}/update-publish/${id}`);
   },
+  updatePublishIsMain(id: string | number) {
+    return http.put<ResponseData>(`${URL}/update-is-main/${id}`);
+  },
+  updatePublishIsFooter(id: string | number) {
+    return http.put<ResponseData>(`${URL}/update-is-footer/${id}`);
+  },
+  updateSort(id: string | number, sort: number | string) {
+    return http.put<ResponseData>(`${URL}/update-sort/${id}`, {sort: sort});
+  },
   // deleteAll(listId: number[]) {
   //   return http.delete<ResponseData>(`${URL}/delete-rows`, {
   //     data: { listId },

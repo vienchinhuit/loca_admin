@@ -10,7 +10,7 @@ import { HelmetPage, Loading } from "core/components";
 const { TextArea } = Input;
 
 export default function Driver() {
-  const titlePage = txt.CONTACT_TITLE;
+  const titlePage = txt.INTRODUCE_TITLE;
   const [imageUrl, setImageUrl] = useState<string>("");
   const [fileImg, setFileImg] = useState<File>();
   const [form] = Form.useForm();

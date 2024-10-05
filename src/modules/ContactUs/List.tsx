@@ -65,9 +65,7 @@ export default function ContactUsList() {
     refetchOnReconnect: true,
   });
   const dataList = Data?.data.data;
-  console.log(dataList);
   
-
   const resetQuery = async () => {
     await refetch();
     // Xử lý trường hợp xóa trang cuối
@@ -137,11 +135,8 @@ export default function ContactUsList() {
     mutationFn: (body: any) => userApi.create(body),
   });
   const onFinishCreate = (values: contactUS) => {
-    const result = {
-      ...values,
-      publish: values.publish === undefined ? 1 : values.publish,
-    };
-    create.mutate(result, {
+
+    create.mutate(values, {
       onSuccess: (res) => {
         if (res.data.statusCode == HttpStatusCode.Ok) {
           setOpen(false);
@@ -171,13 +166,8 @@ export default function ContactUsList() {
     mutationFn: (body: any) => userApi.update(id ? id : 0, body),
   });
   const onFinishEdit = (values: contactUS) => {
-    console.log(values);
-    
-    const result = {
-      ...values,
-      publish: values.publish === undefined ? 1 : values.publish,
-    };
-    update.mutate(result, {
+
+    update.mutate(values, {
       onSuccess: (res) => {
         if (res.data.statusCode == HttpStatusCode.Ok) {
           setOpen(false);
@@ -228,13 +218,13 @@ export default function ContactUsList() {
     showModal();
   };
   return (
-    <div className="pt-5">
+    <div className="">
       <HelmetPage
         title={titlePage}
         content={`Quản lý ${titlePage}`}
       />
       {/* <Function/> */}
-      <div className="py-[15px] bg-[#FFFFFF]">
+      <div className=" bg-[#FFFFFF]">
         {selectedRowKeys.length === 0 ? (
           <Search
             queryConfig={queryConfig}
@@ -251,8 +241,8 @@ export default function ContactUsList() {
         <TableData
           dataSource={dataSource}
           deleteMutation={deleteMutation}
-          updatePublishMutation={updatePublishMutation}
-          showDrawer={showDrawer}
+          // updatePublishMutation={updatePublishMutation}
+          // showDrawer={showDrawer}
           selectedRowKeys={selectedRowKeys}
           setSelectedRowKeys={setSelectedRowKeys}
           isLoading={isLoading}

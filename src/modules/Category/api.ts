@@ -23,8 +23,8 @@ const api = {
   delete(id: string | number) {
     return http.delete<ResponseData>(`${URL}/${id}`);
   },
-  getBySlug(slug: string) {
-    return http.get<SuccessResponse<Config>>(`${URL}/findBySlug/${slug}`);
+  getById(id: string) {
+    return http.get<SuccessResponse<Config>>(`${URL}/get-one-by-id/${id}`);
   },
   updatePublish(id: string | number) {
     return http.put<ResponseData>(`${URL}/update-publish/${id}`);

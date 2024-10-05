@@ -26,27 +26,27 @@ interface Props {
     string | number,
     unknown
   >;
-  updatePublishMutation: UseMutationResult<
-    AxiosResponse<ResponseData, any>,
-    Error,
-    number,
-    unknown
-  >;
-  showDrawer: (
-    idEdit?: number,
-    city?: number,
-    district?: number,
-    city_name?: string,
-    district_name?: string,
-    ward_name?: string
-  ) => void;
+  // updatePublishMutation: UseMutationResult<
+  //   AxiosResponse<ResponseData, any>,
+  //   Error,
+  //   number,
+  //   unknown
+  // >;
+  // showDrawer: (
+  //   idEdit?: number,
+  //   city?: number,
+  //   district?: number,
+  //   city_name?: string,
+  //   district_name?: string,
+  //   ward_name?: string
+  // ) => void;
   isLoading: boolean;
 }
 export default function TableData({
   dataSource,
   deleteMutation,
-  updatePublishMutation,
-  showDrawer,
+  // updatePublishMutation,
+  // showDrawer,
   selectedRowKeys,
   setSelectedRowKeys,
   isLoading,
@@ -73,21 +73,6 @@ export default function TableData({
       dataIndex: "content",
     },
     {
-      title: "Kích hoạt",
-      dataIndex: "publish",
-      className: "row_content",
-      key: "publish",
-      render: (_text, record) => (
-        <div className="">
-          <input
-            checked={record.publish}
-            type="checkbox"
-            onChange={() => updatePublishMutation.mutate(record.id)}
-          />
-        </div>
-      ),
-    },
-    {
       title: "Ngày tạo",
       dataIndex: "created_at",
       className: "row_content",
@@ -99,13 +84,7 @@ export default function TableData({
       key: "action",
       width: 150,
       render: (_text, record) => (
-        <div className=" mr-5">
-          <button
-            onClick={() => showDrawer(record.id)}
-            className="p-2 text-[#30A4EE] hover:text-[#2385C7]"
-          >
-            <img src={iconPng.icEdit} width={16} />
-          </button>
+        <div className="">
           <Popconfirm
             title="Xóa"
             description="Bạn có chắc chắn muốn xóa?"

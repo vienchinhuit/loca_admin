@@ -6,12 +6,12 @@ export default function AboutUs() {
     {
       key: "1",
       label: "Nội dung",
-        children: <Content/>,
+      children: <Content />,
     },
     {
       key: "2",
-      label: "Item",
-        children: <Item/>,
+      label: "Ưu điểm",
+      children: <Item />,
     },
   ];
   return (

@@ -49,5 +49,19 @@ const api = {
   updatePublish(id: string | number) {
     return http.put<ResponseData>(`${URL_ITEM}/update-publish/${id}`);
   },
+  updateSort(id: string | number, sort: number | string) {
+    return http.put<ResponseData>(`${URL_ITEM}/update-sort/${id}`, {sort: sort});
+  },
+  deleteAll(listId: number[]) {
+    return http.delete<ResponseData>(`${URL_ITEM}/delete-rows`, {
+      data: { listId },
+    });
+  },
+  updatePublishAll(listId: number[], publish: number) {
+    return http.put<ResponseData>(`${URL_ITEM}/update-list-publish`, {
+      listId,
+      publish,
+    });
+  },
 };
 export default api;

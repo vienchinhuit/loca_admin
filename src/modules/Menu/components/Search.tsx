@@ -53,7 +53,7 @@ export default function Search({ queryConfig, path, showDrawer }: Props) {
         </div>
         <button
           onClick={() => showDrawer()}
-          className="flex items-center ml-3 px-[15px] text-[12px] rounded-[3px] border text-[#ffffff] border-[#EFEFEF] bg-[#1677ff] hover:border-[#1677ff] hover:bg-[#ffffff] hover:text-[#1677ff]"
+          className="flex items-center ml-3 px-[15px] text-[12px] rounded-[3px] border text-[#ffffff] border-[#EFEFEF] bg-green hover:border-green hover:bg-[#ffffff] hover:text-green"
         >
           <i className="fi fi-rr-plus"></i>
           <span className="ml-[6px] font-bold">Thêm</span>
@@ -79,8 +79,8 @@ export default function Search({ queryConfig, path, showDrawer }: Props) {
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e)}
               options={[
-                { value: 1, label: "Đang hoạt động" },
-                { value: 0, label: "Ngưng hoạt động" },
+                { value: 1, label: "Đang hiển thị" },
+                { value: 0, label: "Đang ẩn" },
               ]}
             />
           </div>

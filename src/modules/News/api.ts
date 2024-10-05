@@ -5,10 +5,21 @@ import {
   SuccessResponseValid,
 } from "core/types/utils.type";
 import http from "core/utils/http";
-import { Config } from "./type";
+import { Config, KeyTitle, KeyTitleConfig } from "./type";
 
 const URL = "/news";
 const api = {
+  getKeyTitle(key: string) {
+    return http.get<SuccessResponse<KeyTitleConfig[]>>(`/system`, {
+      params: {
+        key: key,
+      }
+    });
+  },
+  updateKeyTitle(data: KeyTitle, keyUrl: string) {
+    return http.post<SuccessResponseValid<KeyTitleConfig>>(`/system/${keyUrl}`, data);
+  },
+
   getAll(params: any) {
     return http.get<SuccessResponseList<Config[]>>(`${URL}/getAll`, {
       params,
@@ -31,8 +42,8 @@ const api = {
   delete(id: string | number) {
     return http.delete<ResponseData>(`${URL}/${id}`);
   },
-  getBySlug(slug: string) {
-    return http.get<SuccessResponse<Config>>(`${URL}/get-one-by-slug/${slug}`);
+  getById(id: string) {
+    return http.get<SuccessResponse<Config>>(`${URL}/get-one-by-id/${id}`);
   },
   updatePublish(id: string | number) {
     return http.put<ResponseData>(`${URL}/update-publish/${id}`);

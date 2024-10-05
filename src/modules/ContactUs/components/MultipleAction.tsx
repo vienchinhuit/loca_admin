@@ -16,7 +16,7 @@ option,
         <div className="flex text-black items-center w-full">
           <span>Đã chọn {selectedRowKeys.length} trên trang này</span>
           <Select value={option} onChange={selectedMultipleAction} placeholder="Chọn thao tác" className="rounded-lg ml-3 w-[10%]">
-            <Option value='option1'>Cập nhật trạng thái</Option>
+            {/* <Option value='option1'>Cập nhật trạng thái</Option> */}
             <Option value='option2'>Xóa tất cả</Option>
           </Select>
         </div>

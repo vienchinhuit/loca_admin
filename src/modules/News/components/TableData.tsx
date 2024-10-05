@@ -1,4 +1,11 @@
-import { Empty, Popconfirm, Spin, Table, TableColumnsType, TableProps } from "antd";
+import {
+  Empty,
+  Popconfirm,
+  Spin,
+  Table,
+  TableColumnsType,
+  TableProps,
+} from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { UseMutationResult } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
@@ -6,6 +13,7 @@ import { ResponseData } from "core/types/utils.type";
 import { DataType } from "../type";
 import { Loading } from "core/components";
 import { iconPng } from "core/constants";
+import { Link } from "react-router-dom";
 
 type TableRowSelection<T extends object = object> =
   TableProps<T>["rowSelection"];
@@ -27,7 +35,7 @@ interface Props {
   >;
   // showUpdate: (idEdit: number, city?: number, district?: number, city_name?: string, district_name?: string, ward_name?: string) => void;
   isLoading: boolean;
-  showEdit: (idEdit: number | string) => void
+  showEdit: (idEdit: number | string) => void;
 }
 export default function TableData({
   dataSource,
@@ -36,7 +44,7 @@ export default function TableData({
   selectedRowKeys,
   setSelectedRowKeys,
   isLoading,
-  showEdit
+  showEdit,
 }: Props) {
   const columns: TableColumnsType<DataType> = [
     {
@@ -45,41 +53,44 @@ export default function TableData({
       className: "row_content",
       key: "image_url",
       width: 130,
-      render: (_text,record) => (
+      render: (_text, record) => (
         <div className="flex justify-center ">
-          <img src={`${import.meta.env.VITE_BASE_URL_IMAGE}/${record.image_url}`} alt="" className="h-12"/>
+          <img
+            src={`${import.meta.env.VITE_BASE_URL_IMAGE}/${record.image_url}`}
+            alt=""
+            className="h-12"
+          />
         </div>
       ),
     },
     {
       title: `Tiêu đề`,
       dataIndex: "heading",
-      width: 220
+      width: 220,
     },
+    // {
+    //   title: `Mô tả`,
+    //   dataIndex: "description",
+    //   width: 300,
+    //   render: (_text,record) => (
+    //     <div className="truncate">
+    //       {record.description}
+    //     </div>
+    //   ),
+    // },
+
     {
-      title: `Mô tả`,
-      dataIndex: "description",
-      width: 300,
-      render: (_text,record) => (
-        <div className="truncate">
-          {record.description}
-        </div>
-      ),
-    },
-    
-    {
-      title: "Hiển thị",
+      title: "Hiển thị/Ẩn",
       dataIndex: "publish",
       className: "row_content",
       width: 100,
       key: "publish",
-      render: (_text,record) => (
+      render: (_text, record) => (
         <div className="">
           <input
             checked={record.publish}
             type="checkbox"
-            onChange={()=>updatePublishMutation.mutate(record.id)
-            }
+            onChange={() => updatePublishMutation.mutate(record.id)}
           />
         </div>
       ),
@@ -88,19 +99,19 @@ export default function TableData({
       title: "Ngày tạo",
       dataIndex: "created_at",
       className: "row_content",
-      width: 110
+      width: 110,
     },
     {
       title: "Tính năng",
       dataIndex: "action",
       className: "row_content",
       width: 120,
-      fixed: 'right',
+      fixed: "right",
       key: "action",
-      render: (_text,record) => (
-        <div className=" mr-5">
+      render: (_text, record) => (
+        <div className="flex justify-center items-center">
           <button
-            onClick={() => showEdit(record.slug)}
+            onClick={() => showEdit(record.id)}
             className=" p-2 text-[#30A4EE] hover:text-[#2385C7]"
           >
             <img src={iconPng.icEdit} width={16} />
@@ -117,6 +128,13 @@ export default function TableData({
               <img src={iconPng.icTrash} width={16} />
             </button>
           </Popconfirm>
+          <Link
+            target={"_blank"}
+            to={`${import.meta.env.VITE_DOMAIN_WEB}${record.slug}`}
+            className="ml-1"
+          >
+            <img src={iconPng.icLink} width={16} />
+          </Link>
         </div>
       ),
     },
@@ -132,27 +150,27 @@ export default function TableData({
   };
   return (
     <div className="w-full mt-3 relative">
-        <Table
-          rowSelection={rowSelection}
-          columns={columns}
-          dataSource={dataSource}
-          pagination={false}
-          scroll={{ x: 500 }}
-          className="min-h-10"
-          locale={{
-            emptyText: (
-              isLoading? 
-              <></>
-               : <Empty
-               image={Empty.PRESENTED_IMAGE_SIMPLE}
-               description="Dữ liệu rỗng"
-             />
-            ),
-          }}
-        />
-        {isLoading && (
+      <Table
+        rowSelection={rowSelection}
+        columns={columns}
+        dataSource={dataSource}
+        pagination={false}
+        scroll={{ x: 500 }}
+        className="min-h-10"
+        locale={{
+          emptyText: isLoading ? (
+            <></>
+          ) : (
+            <Empty
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+              description="Dữ liệu rỗng"
+            />
+          ),
+        }}
+      />
+      {isLoading && (
         <div className="loading-overlay">
-          <Spin indicator={<Loading />}/>
+          <Spin indicator={<Loading />} />
         </div>
       )}
     </div>

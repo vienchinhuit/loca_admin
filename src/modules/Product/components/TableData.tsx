@@ -1,4 +1,11 @@
-import { Empty, Popconfirm, Spin, Table, TableColumnsType, TableProps } from "antd";
+import {
+  Empty,
+  Popconfirm,
+  Spin,
+  Table,
+  TableColumnsType,
+  TableProps,
+} from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { UseMutationResult } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
@@ -27,7 +34,7 @@ interface Props {
   >;
   // showUpdate: (idEdit: number, city?: number, district?: number, city_name?: string, district_name?: string, ward_name?: string) => void;
   isLoading: boolean;
-  showEdit: (idEdit: number | string) => void
+  showEdit: (idEdit: number | string) => void;
 }
 export default function TableData({
   dataSource,
@@ -36,7 +43,7 @@ export default function TableData({
   selectedRowKeys,
   setSelectedRowKeys,
   isLoading,
-  showEdit
+  showEdit,
 }: Props) {
   const columns: TableColumnsType<DataType> = [
     {
@@ -45,41 +52,44 @@ export default function TableData({
       className: "row_content",
       key: "image",
       width: 130,
-      render: (_text,record) => (
+      render: (_text, record) => (
         <div className="flex justify-center ">
-          <img src={`${import.meta.env.VITE_BASE_URL_IMAGE}/${record.thumb}`} alt="" className="h-12"/>
+          <img
+            src={`${import.meta.env.VITE_BASE_URL_IMAGE}/${record.thumb}`}
+            alt=""
+            className="h-12"
+          />
         </div>
       ),
     },
     {
       title: `Sản phẩm`,
       dataIndex: "name",
-      width: 220
+      width: 220,
     },
+    // {
+    //   title: `Mô tả`,
+    //   dataIndex: "des",
+    //   width: 300,
+    //   render: (_text,record) => (
+    //     <div className="truncate">
+    //       {record.des}
+    //     </div>
+    //   ),
+    // },
+
     {
-      title: `Mô tả`,
-      dataIndex: "des",
-      width: 300,
-      render: (_text,record) => (
-        <div className="truncate">
-          {record.des}
-        </div>
-      ),
-    },
-    
-    {
-      title: "Hiển thị",
+      title: "Hiển thị/Ẩn",
       dataIndex: "publish",
       className: "row_content",
       width: 100,
       key: "publish",
-      render: (_text,record) => (
+      render: (_text, record) => (
         <div className="">
           <input
             checked={record.publish}
             type="checkbox"
-            onChange={()=>updatePublishMutation.mutate(record.id)
-            }
+            onChange={() => updatePublishMutation.mutate(record.id)}
           />
         </div>
       ),
@@ -88,16 +98,16 @@ export default function TableData({
       title: "Ngày tạo",
       dataIndex: "created_at",
       className: "row_content",
-      width: 110
+      width: 110,
     },
     {
       title: "Tính năng",
       dataIndex: "action",
       className: "row_content",
       width: 120,
-      fixed: 'right',
+      fixed: "right",
       key: "action",
-      render: (_text,record) => (
+      render: (_text, record) => (
         <div className=" mr-5">
           <button
             onClick={() => showEdit(record.id)}
@@ -132,27 +142,27 @@ export default function TableData({
   };
   return (
     <div className="w-full mt-3 relative">
-        <Table
-          rowSelection={rowSelection}
-          columns={columns}
-          dataSource={dataSource}
-          pagination={false}
-          scroll={{ x: 500 }}
-          className="min-h-10"
-          locale={{
-            emptyText: (
-              isLoading? 
-              <></>
-               : <Empty
-               image={Empty.PRESENTED_IMAGE_SIMPLE}
-               description="Dữ liệu rỗng"
-             />
-            ),
-          }}
-        />
-        {isLoading && (
+      <Table
+        rowSelection={rowSelection}
+        columns={columns}
+        dataSource={dataSource}
+        pagination={false}
+        scroll={{ x: 500 }}
+        className="min-h-10"
+        locale={{
+          emptyText: isLoading ? (
+            <></>
+          ) : (
+            <Empty
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
+              description="Dữ liệu rỗng"
+            />
+          ),
+        }}
+      />
+      {isLoading && (
         <div className="loading-overlay">
-          <Spin indicator={<Loading />}/>
+          <Spin indicator={<Loading />} />
         </div>
       )}
     </div>

@@ -2,15 +2,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Drawer, Form } from "antd";
 import { useMemo, useState } from "react";
 import { toast } from "react-toastify";
-import {
-  FormInput,
-  MultipleAction,
-  Search,
-  TableData,
-} from "./components";
+import { FormInput, ModalNotification, MultipleAction, Search, TableData } from "./components";
 import { ListConfig, WhyChooseType } from "./type";
 import { HttpStatusCode, path, txt } from "core/constants";
-import { HelmetPage, Pagination } from "core/components";
+import { Pagination } from "core/components";
 import { formatDate } from "core/utils/utils";
 import api from "./api";
 import { createSearchParams, useNavigate } from "react-router-dom";
@@ -21,7 +16,6 @@ export default function WhyChoose() {
   const routePage = `${path.ROUTE_ADMIN}${path.ROUTE_WHY_CHOOSE}`;
   // const routeOriginalPage = `${path.ROUTE_ADMIN}${path.ROUTE_WHY_CHOOSE}`;
   const queryKey = "whychoose";
-  const titlePage = txt.WHY_CHOOSE_TITLE;
   const queryConfig = useQueryConfig();
   const queryClient = useQueryClient();
   const [form] = Form.useForm();
@@ -31,20 +25,20 @@ export default function WhyChoose() {
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState<string>("");
   const [fileImg, setFileImg] = useState<File>();
-  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // const showModal = () => {
-  //   setIsModalOpen(true);
-  // };
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
 
-  // const handleOk = () => {
-  //   setIsModalOpen(false);
-  // };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
 
-  // const handleCancel = () => {
-  //   setIsModalOpen(false);
-  //   setOption("Chọn thao tác");
-  // };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    setOption("Chọn thao tác");
+  };
   const showDrawer = (idEdit?: number) => {
     setOpen(true);
     setId(idEdit);
@@ -105,6 +99,7 @@ export default function WhyChoose() {
         publish: item.publish === 1 ? true : false,
         thumb: `${import.meta.env.VITE_BASE_URL_IMAGE}/${item.thumb}`,
         created_at: formatDate(item.created_at),
+        sort: item.sort,
       })) || [],
     [dataList]
   );
@@ -120,18 +115,18 @@ export default function WhyChoose() {
       toast.error(txt.DELETE_FAILED);
     },
   });
-  // const deleteAllMutation = useMutation({
-    // mutationFn: (ids: any) => api.deleteAll(ids),
-    // onSuccess: async (res) => {
-    //   await resetQuery();
-    //   handleCancel();
-    //   setSelectedRowKeys([]);
-    //   toast.success(res.data.message);
-    // },
-    // onError: () => {
-    //   toast.error(txt.DELETE_FAILED);
-    // },
-  // });
+  const deleteAllMutation = useMutation({
+  mutationFn: (ids: any) => api.deleteAll(ids),
+  onSuccess: async (res) => {
+    await resetQuery();
+    handleCancel();
+    setSelectedRowKeys([]);
+    toast.success(res.data.message);
+  },
+  onError: () => {
+    toast.error(txt.DELETE_FAILED);
+  },
+  });
 
   // Create
   const create = useMutation({
@@ -158,8 +153,8 @@ export default function WhyChoose() {
           toast.success(res.data.message);
           form.resetFields();
           // resetQuery();
-          refetch()
-          setFileImg(undefined)
+          refetch();
+          setFileImg(undefined);
         } else {
           const formError = res.data.errors;
           if (formError) {
@@ -201,7 +196,7 @@ export default function WhyChoose() {
           setOpen(false);
           toast.success(res.data.message);
           // resetQuery();
-          refetch()
+          refetch();
           setId(undefined);
           setFileImg(undefined);
           form.resetFields();
@@ -231,27 +226,35 @@ export default function WhyChoose() {
       resetQuery();
     },
   });
-  // const updateAllPublishMutation = useMutation({
-    // mutationFn: (publish: number) =>
-    //   api.updatePublishAll(selectedRowKeys as any, publish),
-    // onSuccess: (res) => {
-    //   toast.success(res.data.message);
-    //   handleCancel();
-    //   setSelectedRowKeys([]);
-    //   resetQuery();
-    // },
-  // });
+
+  const updateSort = useMutation({
+    mutationFn: ({ id, sort }: { id: number | string; sort: number | string }) =>
+      api.updateSort(id, sort),
+  });
+  const onChangeSort = (id: number, sortValue: number,) => {
+    updateSort.mutate({ id, sort: sortValue });
+  };
+
+  const updateAllPublishMutation = useMutation({
+  mutationFn: (publish: number) =>
+    api.updatePublishAll(selectedRowKeys as any, publish),
+  onSuccess: (res) => {
+    toast.success(res.data.message);
+    handleCancel();
+    setSelectedRowKeys([]);
+    resetQuery();
+  },
+  });
 
   const [option, setOption] = useState<string>("Chọn thao tác");
   const selectedMultipleAction = (values: any) => {
     setOption(values);
-    // showModal();
+    showModal();
   };
 
   return (
-    <div className="py-5">
-      <HelmetPage title={`${titlePage}`} content={`Quản lý ${titlePage}`} />
-      <div className="py-[15px] bg-[#FFFFFF]">
+    <div className="">
+      <div className="bg-[#FFFFFF]">
         {selectedRowKeys.length === 0 ? (
           <Search
             queryConfig={queryConfig}
@@ -273,6 +276,7 @@ export default function WhyChoose() {
           selectedRowKeys={selectedRowKeys}
           setSelectedRowKeys={setSelectedRowKeys}
           isLoading={isLoading}
+          onChangeSort={onChangeSort}
         />
 
         {Data?.data.pagination && (
@@ -312,7 +316,7 @@ export default function WhyChoose() {
           />
         )}
       </Drawer>
-      {/* <ModalNotification
+      <ModalNotification
         isModalOpen={isModalOpen}
         handleOk={handleOk}
         handleCancel={handleCancel}
@@ -320,7 +324,7 @@ export default function WhyChoose() {
         selectedRowKeys={selectedRowKeys}
         updateAllPublishMutation={updateAllPublishMutation}
         deleteAllMutation={deleteAllMutation}
-      /> */}
+      />
     </div>
   );
 }

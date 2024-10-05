@@ -6,7 +6,7 @@ import { QueryConfig } from "../hooks/useQueryConfig";
 
 interface Props {
   queryConfig: QueryConfig;
-  path: string
+  path: string;
   showDrawer: (idEdit?: number) => void;
 }
 export default function Search({ queryConfig, path, showDrawer }: Props) {
@@ -49,11 +49,11 @@ export default function Search({ queryConfig, path, showDrawer }: Props) {
     <div className="w-full flex text-[13px] px-[8px] border-b border-t border-[#EFEFEF] py-[10px]">
       <div className="tools w-[50%] flex">
         <div className="mt-1 font-medium text-[14px] leading-[30px] uppercase">
-          DS tài khoản
+          DS Khách hàng liên hệ
         </div>
         <button
           onClick={() => showDrawer()}
-          className="flex items-center ml-3 px-[15px] text-[12px] rounded-[3px] border text-[#ffffff] border-[#EFEFEF] bg-[#1677ff] hover:border-[#1677ff] hover:bg-[#ffffff] hover:text-[#1677ff]"
+          className="flex items-center ml-3 px-[15px] text-[12px] rounded-[3px] border text-[#ffffff] border-[#EFEFEF] bg-green hover:border-green hover:bg-[#ffffff] hover:text-green"
         >
           <i className="fi fi-rr-plus"></i>
           <span className="ml-[6px] font-bold">Thêm</span>
@@ -69,20 +69,9 @@ export default function Search({ queryConfig, path, showDrawer }: Props) {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="flex-grow bg-transparent px-3 py-1  text-black outline-none rounded-sm border-[1px] border-gray-300 focus:border-blue"
-                placeholder="Tìm kiếm"
+                placeholder="Tìm kiếm theo tên, email, số điện thoại"
               />
             </div>
-          </div>
-          <div className="w-[30%]">
-            <Select
-              className="h-full w-full text-left text-sm capitalize outline-none bg-gray-100 ml-1"
-              value={selectedStatus}
-              onChange={(e) => setSelectedStatus(e)}
-              options={[
-                { value: 1, label: "Đang hoạt động" },
-                { value: 0, label: "Ngưng hoạt động" },
-              ]}
-            />
           </div>
           <div className="flex">
             <button

@@ -71,8 +71,8 @@ export default function Search({ queryConfig, path }: Props) {
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e)}
               options={[
-                { value: 1, label: "Đang hoạt động" },
-                { value: 0, label: "Ngưng hoạt động" },
+                { value: 1, label: "Đang hiển thị" },
+                { value: 0, label: "Đang ẩn" },
               ]}
             />
           </div>

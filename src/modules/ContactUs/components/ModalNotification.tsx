@@ -7,9 +7,19 @@ interface Props {
   handleOk: () => void;
   handleCancel: () => void;
   option: string;
-  selectedRowKeys: React.Key[]
-  deleteAllMutation: UseMutationResult<AxiosResponse<ResponseData, any>, Error, any, unknown>
-  updateAllPublishMutation: UseMutationResult<AxiosResponse<ResponseData, any>, Error, number, unknown>
+  selectedRowKeys: React.Key[];
+  deleteAllMutation: UseMutationResult<
+    AxiosResponse<ResponseData, any>,
+    Error,
+    any,
+    unknown
+  >;
+  updateAllPublishMutation: UseMutationResult<
+    AxiosResponse<ResponseData, any>,
+    Error,
+    number,
+    unknown
+  >;
 }
 export default function ModalNotification({
   isModalOpen,
@@ -18,7 +28,7 @@ export default function ModalNotification({
   option,
   selectedRowKeys,
   deleteAllMutation,
-  updateAllPublishMutation
+  updateAllPublishMutation,
 }: Props) {
   const checkAction = (optionAction: string) => {
     switch (optionAction) {
@@ -30,13 +40,13 @@ export default function ModalNotification({
                 onClick={() => updateAllPublishMutation.mutate(0)}
                 className="px-4 py-1 border-gray-400 border-[1px] rounded-md hover:bg-gray-200"
               >
-                Ngưng hoạt động
+                Đang ẩn
               </button>
               <button
                 onClick={() => updateAllPublishMutation.mutate(1)}
                 className="px-4 py-1 ml-3 border-gray-400 border-[1px] rounded-md hover:bg-green-100"
               >
-                Đang hoạt động
+                Đang hiển thị
               </button>
             </div>
           </div>

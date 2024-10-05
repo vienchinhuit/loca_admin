@@ -94,7 +94,6 @@ export default function CreateCategory() {
           <Form.Item
             label={`Mô tả`}
             name="description"
-            rules={[{ required: true, message: "Dữ liệu không được để trống" }]}
           >
             <TextArea
               showCount
@@ -111,7 +110,7 @@ export default function CreateCategory() {
             layout="horizontal"
             valuePropName="checked" // Để làm việc với giá trị boolean
           >
-            <Checkbox defaultChecked={true}>Hoạt động</Checkbox>
+            <Checkbox defaultChecked={true}>Hiển thị</Checkbox>
           </Form.Item>
         </div>
         <div className="col-span-1">
@@ -123,7 +122,6 @@ export default function CreateCategory() {
                 "Tiêu đề trang hiệu quả nhất dài khoản 10-70 ký tự, bao gồm cả khoảng trắng",
               icon: <InfoCircleOutlined />,
             }}
-            rules={[{ required: true, message: "Dữ liệu không được để trống" }]}
           >
             <TextArea
               showCount
@@ -137,7 +135,6 @@ export default function CreateCategory() {
             label={`Meta Keywords`}
             name="meta_keywords"
             className="mt-1"
-            rules={[{ required: true, message: "Dữ liệu không được để trống" }]}
           >
             <TextArea
               showCount
@@ -156,7 +153,6 @@ export default function CreateCategory() {
                 "Tiêu đề trang hiệu quả nhất dài khoản 160-300 ký tự, bao gồm cả khoảng trắng",
               icon: <InfoCircleOutlined />,
             }}
-            rules={[{ required: true, message: "Dữ liệu không được để trống" }]}
           >
             <TextArea
               showCount
@@ -183,7 +179,7 @@ export default function CreateCategory() {
         >
           Hủy
         </Button>
-        <Button type="primary" htmlType="submit" className="ml-3">
+        <Button htmlType="submit" className="ml-3 bg-green text-white">
           Lưu
         </Button>
       </Form.Item>

@@ -1,9 +1,20 @@
 import { ResponseData, SuccessResponse, SuccessResponseList, SuccessResponseValid } from "core/types/utils.type";
 import http from "../../core/utils/http";
-import { Config as UserConfig } from "./type";
+import { KeyTitle, KeyTitleConfig, Config as UserConfig } from "./type";
 
 const URL = "/contact";
 const api = {
+
+  getKeyTitle(key: string) {
+    return http.get<SuccessResponse<KeyTitleConfig[]>>(`/system`, {
+      params: {
+        key: key,
+      }
+    });
+  },
+  updateKeyTitle(data: KeyTitle, keyUrl: string) {
+    return http.post<SuccessResponseValid<KeyTitleConfig>>(`/system/${keyUrl}`, data);
+  },
   getAll(params?: any) {
     return http.get<SuccessResponseList<UserConfig[]>>(`${URL}`, {
       params,

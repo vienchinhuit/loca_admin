@@ -7,26 +7,24 @@ import { path } from "core/constants";
 import PageNotFound from "modules/PageNotFound";
 import PageServerError from "modules/PageServerError";
 import Banner from "modules/Banner/Banner";
-import { MainSystem } from "modules/System";
-import { News } from "modules/News";
 import Introduction from "modules/introduce/Introduce";
-import { WhyChoose } from "modules/WhyChoose";
-import { Partner } from "modules/Partner";
+import { MainPartner } from "modules/Partner";
 import Driver from "modules/Driver/Driver";
-import Contact from "modules/Contact/Contact";
 import { Product } from "modules/Product";
 import { Menu } from "modules/Menu";
 import CreateNews from "modules/News/Create/Create";
 import Update from "modules/News/Update/Update";
 import CreateProduct from "modules/Product/Create/Create";
 import UpdateProduct from "modules/Product/Update/Update";
-import { ContactUs } from "modules/ContactUs";
 import AboutUs from "modules/AboutUs/AboutUs";
 import Category from "modules/Category/List";
 import CreateCategory from "modules/Category/Create/Create";
 import UpdateCategory from "modules/Category/Update/Update";
-
-
+import MainBranch from "modules/System/Main";
+import MainWhyChoose from "modules/WhyChoose/Main";
+import MainNews from "modules/News/Main";
+import Setting from "modules/Setting/Setting";
+import MainContactUs from "modules/ContactUs/Main";
 
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext);
@@ -76,10 +74,10 @@ export default function useRouteElements() {
           ),
         },
         {
-          path: `/admin/system`,
+          path: `/admin/branch`,
           element: (
             <MainLayout>
-              <MainSystem />
+              <MainBranch />
             </MainLayout>
           ),
         },
@@ -87,7 +85,23 @@ export default function useRouteElements() {
           path: `/admin/news`,
           element: (
             <MainLayout>
-              <News />
+              <MainNews />
+            </MainLayout>
+          ),
+        },
+        {
+          path: `/admin/news-create`,
+          element: (
+            <MainLayout>
+              <CreateNews />
+            </MainLayout>
+          ),
+        },
+        {
+          path: `/admin/news-update/:id`,
+          element: (
+            <MainLayout>
+              <Update />
             </MainLayout>
           ),
         },
@@ -108,34 +122,19 @@ export default function useRouteElements() {
           ),
         },
         {
-          path: `/admin/category-update/:slug`,
+          path: `/admin/category-update/:id`,
           element: (
             <MainLayout>
               <UpdateCategory />
             </MainLayout>
           ),
         },
-        {
-          path: `/admin/news-create`,
-          element: (
-            <MainLayout>
-              <CreateNews />
-            </MainLayout>
-          ),
-        },
-        {
-          path: `/admin/news-update/:slug`,
-          element: (
-            <MainLayout>
-              <Update />
-            </MainLayout>
-          ),
-        },
+
         {
           path: `/admin/why-choose`,
           element: (
             <MainLayout>
-              <WhyChoose />
+              <MainWhyChoose />
             </MainLayout>
           ),
         },
@@ -143,7 +142,7 @@ export default function useRouteElements() {
           path: `/admin/partner`,
           element: (
             <MainLayout>
-              <Partner />
+              <MainPartner />
             </MainLayout>
           ),
         },
@@ -156,10 +155,10 @@ export default function useRouteElements() {
           ),
         },
         {
-          path: `/admin/contact`,
+          path: `/admin/setting`,
           element: (
             <MainLayout>
-              <Contact/>
+              <Setting />
             </MainLayout>
           ),
         },
@@ -167,7 +166,7 @@ export default function useRouteElements() {
           path: `/admin/product`,
           element: (
             <MainLayout>
-              <Product/>
+              <Product />
             </MainLayout>
           ),
         },
@@ -175,7 +174,7 @@ export default function useRouteElements() {
           path: `/admin/product-create`,
           element: (
             <MainLayout>
-              <CreateProduct/>
+              <CreateProduct />
             </MainLayout>
           ),
         },
@@ -183,7 +182,7 @@ export default function useRouteElements() {
           path: `/admin/product-update/:id`,
           element: (
             <MainLayout>
-              <UpdateProduct/>
+              <UpdateProduct />
             </MainLayout>
           ),
         },
@@ -191,7 +190,7 @@ export default function useRouteElements() {
           path: `/admin/menu`,
           element: (
             <MainLayout>
-              <Menu/>
+              <Menu />
             </MainLayout>
           ),
         },
@@ -199,7 +198,7 @@ export default function useRouteElements() {
           path: `/admin/contact-us`,
           element: (
             <MainLayout>
-              <ContactUs/>
+              <MainContactUs />
             </MainLayout>
           ),
         },
@@ -207,7 +206,7 @@ export default function useRouteElements() {
           path: `/admin/about-us`,
           element: (
             <MainLayout>
-              <AboutUs/>
+              <AboutUs />
             </MainLayout>
           ),
         },

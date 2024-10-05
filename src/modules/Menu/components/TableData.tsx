@@ -25,6 +25,9 @@ interface Props {
     number,
     unknown
   >;
+  updatePublishIsMainMutation: UseMutationResult<AxiosResponse<ResponseData, any>, Error, number, unknown>
+  updatePublishIsFooterMutation: UseMutationResult<AxiosResponse<ResponseData, any>, Error, number, unknown>
+  onChangeSort: (id: number, sortValue: number) => void
   showDrawer: (idEdit?: number) => void;
   isLoading: boolean;
 }
@@ -36,6 +39,9 @@ export default function TableData({
   selectedRowKeys,
   setSelectedRowKeys,
   isLoading,
+  updatePublishIsMainMutation,
+  updatePublishIsFooterMutation,
+  onChangeSort
 }: Props) {
   const columns: TableColumnsType<DataType> = [
     {
@@ -47,16 +53,62 @@ export default function TableData({
       dataIndex: "link",
     },
     {
+      title: `Thứ tự`,
+      dataIndex: "sort",
+      width: 80,
+      render: (_text, record) => (
+        <input
+          defaultValue={record.sort}
+          type="number"
+          onChange={(e) => onChangeSort(record.id, Number(e.target.value))}
+          className="text-right w-16 py-1 outline-none border-[1px] border-gray-200"
+        />
+      ),
+    },
+    {
       title: "Hiển thị/Ẩn",
       dataIndex: "publish",
       className: "row_content",
       key: "publish",
+      width: 100,
       render: (_text, record) => (
         <div className="">
           <input
             checked={record.publish}
             type="checkbox"
             onChange={() => updatePublishMutation.mutate(record.id)}
+          />
+        </div>
+      ),
+    },
+    {
+      title: "Hiển thị top",
+      dataIndex: "is_main",
+      className: "row_content",
+      key: "is_main",
+      width: 130,
+      render: (_text, record) => (
+        <div className="">
+          <input
+            checked={record.is_main}
+            type="checkbox"
+            onChange={() => updatePublishIsMainMutation.mutate(record.id)}
+          />
+        </div>
+      ),
+    },
+    {
+      title: "Hiển thị footer",
+      dataIndex: "is_footer",
+      className: "row_content",
+      key: "is_footer",
+      width: 130,
+      render: (_text, record) => (
+        <div className="">
+          <input
+            checked={record.is_footer}
+            type="checkbox"
+            onChange={() => updatePublishIsFooterMutation.mutate(record.id)}
           />
         </div>
       ),
@@ -87,6 +139,7 @@ export default function TableData({
             <img src={iconPng.icTrash} width={16} />
             </button>
           </Popconfirm>
+          
         </div>
       ),
     },

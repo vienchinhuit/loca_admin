@@ -1,3 +1,5 @@
 import api from "./api"
 import Partner from "./List"
-export {Partner, api}
+import MainPartner from "./Main"
+import TitlePartner from "./Title"
+export {Partner, api, MainPartner, TitlePartner}

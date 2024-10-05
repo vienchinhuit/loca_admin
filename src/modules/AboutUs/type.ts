@@ -23,6 +23,7 @@ export interface Item {
   des: string;
   status: number;
   file: File
+  sort: string;
 }
 export interface Config {
   id: number;
@@ -47,4 +48,5 @@ export interface DataType {
   publish: boolean
   thumb: string
   created_at: string;
+  sort: number
 }

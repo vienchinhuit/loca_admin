@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { HelmetPage, Pagination } from "core/components";
+import { Pagination } from "core/components";
 import React, { useMemo, useState } from "react";
-import { Function, MultipleAction, Search } from "./components";
+import { Function, ModalNotification, MultipleAction, Search } from "./components";
 import TableData from "./components/TableData";
 import api from "./api";
 import { toast } from "react-toastify";
@@ -15,25 +15,24 @@ import { formatDate } from "core/utils/utils";
 export default function News() {
   const routePage = `${path.ROUTE_ADMIN}${path.ROUTE_NEWS}`;
   const queryKey = "news";
-  const titlePage = txt.NEWS_TITLE;
   const navigate = useNavigate();
   const queryConfig = useQueryConfig();
   const queryClient = useQueryClient();
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
-    // setIsModalOpen(true);
+    setIsModalOpen(true);
   };
 
-  // const handleOk = () => {
-  //   setIsModalOpen(false);
-  // };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
 
-  // const handleCancel = () => {
-  //   setIsModalOpen(false);
-  //   setOption("Chọn thao tác");
-  // };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    setOption("Chọn thao tác");
+  };
   // const getByIdMutation = useMutation({
   //   mutationFn: (id: any) => api.getById(id),
   // });
@@ -102,19 +101,30 @@ export default function News() {
     },
   });
 
-  // const deleteAllMutation = useMutation({
-  //   mutationFn: (ids: any) => api.deleteAll(ids),
-  //   onSuccess: async (res) => {
-  //     await resetQuery();
-  //     handleCancel();
-  //     setSelectedRowKeys([]);
-  //     toast.success(res.data.message);
-  //   },
-  //   onError: () => {
-  //     toast.error(txt.DELETE_FAILED);
-  //   },
-  // });
+  const deleteAllMutation = useMutation({
+    mutationFn: (ids: any) => api.deleteAll(ids),
+    onSuccess: async (res) => {
+      await resetQuery();
+      handleCancel();
+      setSelectedRowKeys([]);
+      toast.success(res.data.message);
+    },
+    onError: () => {
+      toast.error(txt.DELETE_FAILED);
+    },
+  });
 
+  const updateAllPublishMutation = useMutation({
+    mutationFn: (publish: number) =>
+      api.updatePublishAll(selectedRowKeys as any, publish),
+    onSuccess: (res) => {
+      toast.success(res.data.message);
+      handleCancel();
+      setSelectedRowKeys([]);
+      resetQuery();
+    },
+  });
+  
   // Update publish
   const updatePublishMutation = useMutation({
     mutationFn: (id: number) => api.updatePublish(id),
@@ -136,9 +146,8 @@ export default function News() {
   };
 
   return (
-    <div className="py-5">
+    <div className="">
       {/* {getDataMutationExport.isPending ? <LoadingPage /> : <></>} */}
-      <HelmetPage title={titlePage} content={`Quản lý ${titlePage}`} />
       <Function
         // handleExportExcel={handleExportExcel}
         // setIsModalOpen={setIsModalOpen}
@@ -171,7 +180,7 @@ export default function News() {
           />
         )}
       </div>
-      {/* <ModalNotification
+      <ModalNotification
         isModalOpen={isModalOpen}
         handleOk={handleOk}
         handleCancel={handleCancel}
@@ -179,7 +188,7 @@ export default function News() {
         selectedRowKeys={selectedRowKeys}
         updateAllPublishMutation={updateAllPublishMutation}
         deleteAllMutation={deleteAllMutation}
-      /> */}
+      />
     </div>
   );
 }

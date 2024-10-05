@@ -12,7 +12,7 @@ interface Props {
   onClose: () => void;
 }
 export default function FormInput({ form, onFinish, id, onClose }: Props) {
-  const queryById = "userById"
+  const queryById = "userById";
   const { data: byId, isLoading } = useQuery({
     queryKey: [queryById, id],
     queryFn: () => {
@@ -136,7 +136,7 @@ export default function FormInput({ form, onFinish, id, onClose }: Props) {
             layout="horizontal"
             valuePropName="checked" // Để làm việc với giá trị boolean
           >
-            <Checkbox defaultChecked={true}>Kích hoạt</Checkbox>
+            <Checkbox defaultChecked={true}>Hiển thị/Ẩn</Checkbox>
           </Form.Item>
           <Form.Item
             wrapperCol={{ offset: 8, span: 16 }}

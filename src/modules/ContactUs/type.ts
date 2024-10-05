@@ -1,3 +1,17 @@
+export interface KeyTitle {
+  name: string;
+  des: string;
+  google_map: string
+}
+export interface KeyTitleConfig {
+  key: string;
+  content: {
+    name: string;
+    des: string
+    google_map: string
+  };
+  updated_at: Date;
+}
 export interface contactUS {
   id?: number;
   name: string;

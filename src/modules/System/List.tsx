@@ -1,9 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Drawer, Form } from "antd";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import {
   FormInput,
+  ModalNotification,
   // ModalNotification,
   MultipleAction,
   Search,
@@ -11,18 +12,18 @@ import {
 } from "./components";
 import { ListConfig, Config } from "./type";
 import { HttpStatusCode, path, txt } from "core/constants";
-import { HelmetPage, Pagination } from "core/components";
+import { Pagination } from "core/components";
 // import { formatDate } from "core/utils/utils";
 import api from "./api";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { ResponseData } from "core/types/utils.type";
 import { useQueryConfig } from "./hooks/useQueryConfig";
 
-export default function System() {
-  const routePage = `${path.ROUTE_ADMIN}${path.ROUTE_SYSTEM}`;
+export default function Branch() {
+  const routePage = `${path.ROUTE_ADMIN}${path.ROUTE_BRANCH}`;
   // const routeOriginalPage = `${path.ROUTE_ADMIN}${path.ROUTE_SYSTEM}`;
-  const queryKey = "system";
-  const titlePage = txt.SYSTEM_TITLE;
+  const queryKey = "branchs";
+  
   const queryConfig = useQueryConfig();
   const queryClient = useQueryClient();
   const [form] = Form.useForm();
@@ -30,20 +31,21 @@ export default function System() {
   const [id, setId] = useState<number>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const navigate = useNavigate();
-  // const [isModalOpen, setIsModalOpen] = useState(false);
+  const [sort, setSort] = useState<number>()
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
-    // setIsModalOpen(true);
+    setIsModalOpen(true);
   };
 
-  // const handleOk = () => {
-  //   setIsModalOpen(false);
-  // };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
 
-  // const handleCancel = () => {
-  //   setIsModalOpen(false);
-  //   setOption("Chọn thao tác");
-  // };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    setOption("Chọn thao tác");
+  };
   const showDrawer = (idEdit?: number) => {
     setOpen(true);
     setId(idEdit);
@@ -100,11 +102,11 @@ export default function System() {
         id: item.id,
         name: item.name,
         des: item.des,
-        status: item.status === 1 ? true : false,
+        sort: item.sort,
+        publish: item.publish === 1 ? true : false,
       })) || [],
     [dataList]
   );
-
   // Delete
   const deleteMutation = useMutation({
     mutationFn: (id: string | number) => api.delete(id),
@@ -116,18 +118,18 @@ export default function System() {
       toast.error(txt.DELETE_FAILED);
     },
   });
-  // const deleteAllMutation = useMutation({
-  // mutationFn: (ids: any) => api.deleteAll(ids),
-  // onSuccess: async (res) => {
-  //   await resetQuery();
-  //   handleCancel();
-  //   setSelectedRowKeys([]);
-  //   toast.success(res.data.message);
-  // },
-  // onError: () => {
-  //   toast.error(txt.DELETE_FAILED);
-  // },
-  // });
+  const deleteAllMutation = useMutation({
+  mutationFn: (ids: any) => api.deleteAll(ids),
+  onSuccess: async (res) => {
+    await resetQuery();
+    handleCancel();
+    setSelectedRowKeys([]);
+    toast.success(res.data.message);
+  },
+  onError: () => {
+    toast.error(txt.DELETE_FAILED);
+  },
+  });
 
   // Create
   const create = useMutation({
@@ -137,7 +139,7 @@ export default function System() {
     const result = {
       name: values.name,
       des: values.des,
-      publish: values.status === undefined ? 1 : values.status,
+      publish: values.publish === undefined ? 1 : values.publish,
     };
     create.mutate(result, {
       onSuccess: (res) => {
@@ -172,7 +174,7 @@ export default function System() {
     const result = {
       name: values.name,
       des: values.des,
-      publish: values.status === undefined ? 1 : values.status,
+      publish: values.publish === undefined ? 1 : values.publish,
     };
     update.mutate(result, {
       onSuccess: (res) => {
@@ -208,17 +210,28 @@ export default function System() {
       resetQuery();
     },
   });
-  // const updateAllPublishMutation = useMutation({
-  // mutationFn: (publish: number) =>
-  //   api.updatePublishAll(selectedRowKeys as any, publish),
-  // onSuccess: (res) => {
-  //   toast.success(res.data.message);
-  //   handleCancel();
-  //   setSelectedRowKeys([]);
-  //   resetQuery();
-  // },
-  // });
 
+  const updateSort = useMutation({
+    mutationFn: ({ id, sort }: { id: number | string; sort: number | string }) =>
+      api.updateSort(id, sort),
+  });
+  const onChangeSort = (id: number, sortValue: number,) => {
+    updateSort.mutate({ id, sort: sortValue });
+  };
+  const updateAllPublishMutation = useMutation({
+  mutationFn: (publish: number) =>
+    api.updatePublishAll(selectedRowKeys as any, publish),
+  onSuccess: (res) => {
+    toast.success(res.data.message);
+    handleCancel();
+    setSelectedRowKeys([]);
+    resetQuery();
+  },
+  });
+  // const updateSort = useMutation({
+  //   mutationFn: ({ id, formData }: { id: number; formData: FormData }) =>
+  //     api.update(id, formData),
+  // });
   const [option, setOption] = useState<string>("Chọn thao tác");
   const selectedMultipleAction = (values: any) => {
     setOption(values);
@@ -226,9 +239,9 @@ export default function System() {
   };
 
   return (
-    <div className="py-5">
-      <HelmetPage title={`${titlePage}`} content={`Quản lý ${titlePage}`} />
-      <div className="py-[15px] bg-[#FFFFFF]">
+    <div className="">
+      
+      <div className="bg-[#FFFFFF]">
         {selectedRowKeys.length === 0 ? (
           <Search
             queryConfig={queryConfig}
@@ -251,6 +264,8 @@ export default function System() {
           selectedRowKeys={selectedRowKeys}
           setSelectedRowKeys={setSelectedRowKeys}
           isLoading={isLoading}
+          onChangeSort={onChangeSort}
+          // sort={sort}
         />
 
         {Data?.data.pagination && (
@@ -278,7 +293,7 @@ export default function System() {
           <FormInput form={form} onFinish={onFinishCreate} onClose={onClose} />
         )}
       </Drawer>
-      {/* <ModalNotification
+      <ModalNotification
         isModalOpen={isModalOpen}
         handleOk={handleOk}
         handleCancel={handleCancel}
@@ -286,7 +301,7 @@ export default function System() {
         selectedRowKeys={selectedRowKeys}
         updateAllPublishMutation={updateAllPublishMutation}
         deleteAllMutation={deleteAllMutation}
-      /> */}
+      />
     </div>
   );
 }

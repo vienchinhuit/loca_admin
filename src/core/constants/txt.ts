@@ -5,10 +5,10 @@ const txt = {
   // Auth
   // Profile
   PROFILE_TITLE: 'Thông tin tài khoản',
-  CONTACT_TITLE: 'Liên hệ',
+  SETTING_TITLE: 'Cấu hình',
   INTRODUCE_TITLE: 'Giới thiệu',
   BANNER_TITLE: 'Banner',
-  SYSTEM_TITLE: 'Hệ thống',
+  BRANCH_TITLE: 'Hệ thống',
   WHY_CHOOSE_TITLE: 'Vì sao nên chọn chúng tôi',
   PARTNER_TITLE: 'Đối tác & Khách hàng',
   MENU_TITLE: 'Menu',

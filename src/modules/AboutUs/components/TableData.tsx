@@ -5,6 +5,7 @@ import {
   Table,
   TableColumnsType,
   TableProps,
+  Tooltip,
 } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { iconPng } from "core/constants";
@@ -33,6 +34,7 @@ interface Props {
     number,
     unknown
   >;
+  onChangeSort: (id: number, sortValue: number) => void;
   showDrawer: (idEdit?: number) => void;
   isLoading: boolean;
 }
@@ -43,6 +45,7 @@ export default function TableData({
   showDrawer,
   selectedRowKeys,
   setSelectedRowKeys,
+  onChangeSort,
   isLoading,
 }: Props) {
   const columns: TableColumnsType<DataType> = [
@@ -58,23 +61,26 @@ export default function TableData({
     {
       title: `Tiêu đề`,
       dataIndex: "name",
-      width: 200,
     },
     {
-      title: `Nội dung`,
-      dataIndex: "des",
-      width: 700,
+      title: `Thứ tự`,
+      dataIndex: "sort",
+      width: 80,
+      render: (_text, record) => (
+        <input
+          defaultValue={record.sort}
+          type="number"
+          onChange={(e) => onChangeSort(record.id, Number(e.target.value))}
+          className="text-right w-16 py-1 outline-none border-[1px] border-gray-200"
+        />
+      ),
     },
     {
-      title: `Ngày tạo`,
-      dataIndex: "created_at",
-      className: "row_content",
-    },
-    {
-      title: "Kích hoạt",
+      title: "Hiển thị/Ẩn",
       dataIndex: "publish",
       className: "row_content",
       key: "publish",
+      width: 100,
       render: (_text, record) => (
         <div className="">
           <input
@@ -86,10 +92,17 @@ export default function TableData({
       ),
     },
     {
+      title: `Ngày tạo`,
+      dataIndex: "created_at",
+      className: "row_content",
+      width: 200,
+    },
+    {
       title: "Tính năng",
       dataIndex: "action",
       className: "row_content",
       key: "action",
+      width: 150,
       render: (_text, record) => (
         <div className=" mr-5">
           <button
