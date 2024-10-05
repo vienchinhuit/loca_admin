@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
-import { Select } from "antd";
 import { omit } from "lodash";
 import { QueryConfig } from "../hooks/useQueryConfig";
 

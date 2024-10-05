@@ -194,13 +194,6 @@ export default function ContactUsList() {
   };
 
   // Update publish
-  const updatePublishMutation = useMutation({
-    mutationFn: (id: number) => userApi.updatePublish(id),
-    onSuccess: (res) => {
-      toast.success(res.data.message);
-      resetQuery();
-    },
-  });
   const updateAllPublishMutation = useMutation({
     mutationFn: (active: number) =>
       userApi.updatePublishAll(selectedRowKeys as any, active),

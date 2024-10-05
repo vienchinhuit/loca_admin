@@ -5,7 +5,6 @@ import {
   Table,
   TableColumnsType,
   TableProps,
-  Tooltip,
 } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { iconPng } from "core/constants";

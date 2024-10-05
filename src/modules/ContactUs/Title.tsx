@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { KeyTitle, KeyTitleConfig } from "./type";
 import { HttpStatusCode, txt } from "core/constants";
 import { Loading } from "core/components";
-const { TextArea } = Input;
 export default function TitleContactUs() {
   const [form] = Form.useForm();
   const { data: byId, isLoading } = useQuery({

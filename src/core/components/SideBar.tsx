@@ -47,7 +47,7 @@ const items = [
   },
   {
     key: "aboutUs",
-    icon: <img src={iconPng.icInfo} width={22} />,
+    icon: <img src={iconPng.icAccount} width={22} />,
     label: "Về chúng tôi",
     path: `${path.ROUTE_ADMIN}${path.ROUTE_ABOUT_US}`,
   },
@@ -90,7 +90,7 @@ const items = [
   {
     key: "setting",
     icon: <img src={iconPng.icSettings} width={21} />,
-    label: "Cấu hình chung",
+    label: "Cấu hình",
     path: `${path.ROUTE_ADMIN}${path.ROUTE_SETTING}`,
   },
 ];

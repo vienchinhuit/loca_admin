@@ -13,7 +13,6 @@ import icMenu from "../../assets/images/icons/menu.png";
 import icEdit from "../../assets/images/icons/edit.png";
 import icTrash from "../../assets/images/icons/trash.png";
 import icNews from "../../assets/images/icons/news.png";
-import icInfo from "../../assets/images/icons/info.png";
 import icLink from "../../assets/images/icons/link.png";
 
 const iconPng = {
@@ -30,7 +29,6 @@ const iconPng = {
     icSupplier: icSupplier,
     icMenu: icMenu,
     icNews: icNews,
-    icInfo: icInfo,
     // tool
     icEdit: icEdit,
     icTrash: icTrash,

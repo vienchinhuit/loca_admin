@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Drawer, Form } from "antd";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import {
   FormInput,
@@ -31,7 +31,6 @@ export default function Branch() {
   const [id, setId] = useState<number>();
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const navigate = useNavigate();
-  const [sort, setSort] = useState<number>()
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
