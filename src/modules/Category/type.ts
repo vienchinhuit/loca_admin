@@ -1,6 +1,6 @@
 export interface Category {
   id?: number;
-  heading: string;
+  name: string;
   description: string;
   content: string;
   title: string;
@@ -10,7 +10,7 @@ export interface Category {
 }
 export interface Config {
   id: number;
-  heading: string;
+  name: string;
   publish: number;
   description: string;
   title: string;
@@ -30,9 +30,9 @@ export interface ListConfig {
 export interface DataType {
   key: number;
   id: number;
-  heading: string;
+  name: string;
   description: string;
   publish: boolean;
   created_at: string;
-  slug: string
+  slug: string;
 }

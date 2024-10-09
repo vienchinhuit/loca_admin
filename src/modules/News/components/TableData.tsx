@@ -65,7 +65,7 @@ export default function TableData({
     },
     {
       title: `Tiêu đề`,
-      dataIndex: "heading",
+      dataIndex: "name",
       width: 220,
     },
     // {

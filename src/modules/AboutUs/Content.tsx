@@ -14,6 +14,9 @@ export default function Content() {
   const titlePage = txt.ABOUT_US_TITLE;
   const [imageUrl, setImageUrl] = useState<string>("");
   const [fileImg, setFileImg] = useState<File>();
+  const [bannerUrl, setBannerUrl] = useState<string>("");
+  const [filebanner, setFileBanner] = useState<File>();
+
   const [editorData, setEditorData] = useState<string>("");
   const [form] = Form.useForm();
   const queryById = "aboutUs";
@@ -22,7 +25,6 @@ export default function Content() {
     queryFn: () => {
       return api.get();
     },
-    refetchOnWindowFocus: true,
     refetchOnReconnect: true,
   });
   const dataById = byId?.data.data;
@@ -31,7 +33,10 @@ export default function Content() {
       dataById?.map((data: ConfigAbouUs) => {
         if (data.key === "ABOUT") {
           setImageUrl(
-            `${import.meta.env.VITE_BASE_URL_IMAGE}/${data.content.thumb}`
+            `${import.meta.env.VITE_BASE_URL_IMAGE}/${data.content?.thumb}`
+          );
+          setBannerUrl(
+            `${import.meta.env.VITE_BASE_URL_IMAGE}/${data.content?.banner}`
           );
           if (data.content.bottom !== null) {
             setEditorData(data.content.bottom);
@@ -44,7 +49,7 @@ export default function Content() {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataById, form, setImageUrl]);
+  }, [dataById, form, setImageUrl, setBannerUrl]);
   // Xử lý khi người dùng tải ảnh lên
   const handleUpload = (file: File) => {
     // Kiểm tra định dạng file (chỉ cho phép PNG và JPG)
@@ -66,6 +71,26 @@ export default function Content() {
     return false; // Ngăn không gửi file lên server
   };
 
+  const handleUploadBanner = (file: File) => {
+    // Kiểm tra định dạng file (chỉ cho phép PNG và JPG)
+    const validTypes = ["image/png", "image/jpeg"];
+    if (!validTypes.includes(file.type)) {
+      // Định dạng không hợp lệ, đặt lỗi
+      toast.error("Chỉ cho phép tải lên các tệp PNG hoặc JPG.");
+      return false; // Ngăn không cho tải file
+    }
+    // Nếu định dạng hợp lệ, tiếp tục đọc file
+    setFileBanner(file);
+
+    // Đọc file ảnh dưới dạng base64 và lưu vào state để hiển thị
+    const reader = new FileReader();
+    reader.onload = () => {
+      setBannerUrl(reader.result as string); // Lưu kết quả base64 của ảnh
+    };
+    reader.readAsDataURL(file as unknown as Blob); // Chuyển đổi file sang Blob để đọc
+    return false; // Ngăn không gửi file lên server
+  };
+
   const updateMutation = useMutation({
     mutationFn: (body: any) => api.updateAboutUs(body),
   });
@@ -74,6 +99,7 @@ export default function Content() {
     if (editorData == "") {
       toast.error("Vui lòng nhập mô tả sản phẩm!");
     }
+
     if (values && typeof values === "object") {
       (Object.keys(values) as (keyof AboutUs)[]).forEach((key) => {
         let value = values[key];
@@ -85,7 +111,11 @@ export default function Content() {
     if (fileImg) {
       formData.append("file", fileImg);
     }
+    if (filebanner) {
+      formData.append("banner", filebanner);
+    }
     formData.append("bottom", editorData);
+
     updateMutation.mutate(formData, {
       onSuccess: (res) => {
         if (res.data.statusCode == HttpStatusCode.Ok) {
@@ -112,7 +142,6 @@ export default function Content() {
     });
   };
 
-
   return (
     <div className="mx-5">
       <HelmetPage title={`${titlePage}`} content={`Quản lý ${titlePage}`} />
@@ -130,6 +159,38 @@ export default function Content() {
           onFinish={onFinish}
           autoComplete="off"
         >
+          <div className="text-center w-full mb-5">
+            <div className="flex justify-start py-1">
+              <div className="font-medium mr-2">Banner</div>
+              <p className="text-gray-400 text-md">
+                Kích thước ảnh (900 x 390px)
+              </p>
+            </div>
+            <div className="border-[1px] border-gray-300 h-[300px] flex items-center justify-center">
+              {bannerUrl && (
+                <>
+                  <Image
+                    // width={500} // Chiều rộng cố định 500px
+                    height="300px"
+                    className="object-contain"
+                    src={bannerUrl} // URL của ảnh đã chọn
+                    alt="Uploaded Image"
+                  />
+                </>
+              )}
+            </div>
+            <div className="text-red-400"></div>
+            <Upload
+              // listType="picture-card"
+              className="w-full"
+              showUploadList={false} // Ẩn danh sách file được tải lên
+              beforeUpload={handleUploadBanner} // Xử lý khi ảnh được chọn
+            >
+              <Button className="w-[100%] bg-green mt-5">
+                <UploadOutlined /> Chọn ảnh
+              </Button>
+            </Upload>
+          </div>
           <div className="grid grid-cols-2 gap-5">
             <div className="col-span-1 text-center w-full">
               <div className="flex justify-start py-1">

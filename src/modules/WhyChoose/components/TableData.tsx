@@ -88,6 +88,7 @@ export default function TableData({
           type="number"
           onChange={(e) => onChangeSort(record.id, Number(e.target.value))}
           className="text-right w-16 py-1 outline-none border-[1px] border-gray-200"
+          min={0}
         />
       ),
     },
@@ -155,7 +156,7 @@ export default function TableData({
     <div className="table w-full mt-3 relative">
       <Table
         rowSelection={rowSelection}
-        bordered={true}
+        // bordered={true}
         columns={columns}
         dataSource={dataSource}
         pagination={false}

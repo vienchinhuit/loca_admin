@@ -13,21 +13,21 @@ export default function CreateCategory() {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   useEffect(() => {
-    setEditorData('')
-  },[])
-  
+    setEditorData("");
+  }, []);
+
   const create = useMutation({
     mutationFn: (body: any) => api.create(body),
   });
   const onFinish = (values: any) => {
-     if (editorData == null) {
+    if (editorData == null) {
       toast.error("Vui lòng nhập nội dung danh mục!");
     } else {
       const result = {
         ...values,
-        publish: values.publish ? values.publish : '1',
-        content: editorData
-      }
+        publish: values.publish ? values.publish : "1",
+        content: editorData,
+      };
       // if (values && typeof values === "object") {
       //   (Object.keys(values) as (keyof News)[]).forEach((key) => {
       //     let value = values[key];
@@ -49,7 +49,7 @@ export default function CreateCategory() {
             form.resetFields();
             // resetQuery();
             navigate(`${path.ROUTE_ADMIN}${path.ROUTE_CATEGORY}`);
-            setEditorData('');
+            setEditorData("");
           } else {
             const formError = res.data.errors;
             if (formError) {
@@ -68,10 +68,10 @@ export default function CreateCategory() {
       });
     }
   };
-  const onCancel = () => { 
-    navigate(`${path.ROUTE_ADMIN}${path.ROUTE_CATEGORY}`)
-    setEditorData('')
-  }
+  const onCancel = () => {
+    navigate(`${path.ROUTE_ADMIN}${path.ROUTE_CATEGORY}`);
+    setEditorData("");
+  };
   return (
     <Form
       name="form"
@@ -86,15 +86,12 @@ export default function CreateCategory() {
         <div className="col-span-1 w-full">
           <Form.Item
             label={`Tiêu đề`}
-            name="heading"
+            name="name"
             rules={[{ required: true, message: "Dữ liệu không được để trống" }]}
           >
             <Input />
           </Form.Item>
-          <Form.Item
-            label={`Mô tả`}
-            name="description"
-          >
+          <Form.Item label={`Mô tả`} name="description">
             <TextArea
               showCount
               maxLength={350}
@@ -162,7 +159,6 @@ export default function CreateCategory() {
               style={{ height: 120, resize: "none" }}
             />
           </Form.Item>
-          
         </div>
       </div>
       <div className="mt-5">
@@ -173,10 +169,7 @@ export default function CreateCategory() {
         wrapperCol={{ offset: 8, span: 16 }}
         className="text-right mt-[25px]"
       >
-        <Button
-          className="bg-white"
-          onClick={()=>onCancel()}
-        >
+        <Button className="bg-white" onClick={() => onCancel()}>
           Hủy
         </Button>
         <Button htmlType="submit" className="ml-3 bg-green text-white">

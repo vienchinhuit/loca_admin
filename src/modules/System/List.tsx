@@ -215,7 +215,11 @@ export default function Branch() {
       api.updateSort(id, sort),
   });
   const onChangeSort = (id: number, sortValue: number,) => {
-    updateSort.mutate({ id, sort: sortValue });
+    updateSort.mutate({ id, sort: sortValue }, {
+      onSuccess: (res) => {
+        toast.success(res.data.message)
+      }
+    });
   };
   const updateAllPublishMutation = useMutation({
   mutationFn: (publish: number) =>

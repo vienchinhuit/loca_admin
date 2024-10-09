@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import { Select } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   queryConfig: any;
@@ -13,6 +13,9 @@ export default function Pagination({ queryConfig, pageSize, path }: Props) {
   const navigate = useNavigate();
   const page = Number(queryConfig.page);
   const [limit, setLimit] = useState(queryConfig.limit);
+  useEffect(()=>{
+    setLimit(queryConfig.limit)
+  },[queryConfig.limit])
   const onChangeLimit = async (e: any) => {
     setLimit(e);
     await navigate({

@@ -2,7 +2,7 @@ export interface AboutUs {
   name: string;
   file: File;
   des: string;
-  top: string
+  top: string;
   bottom: string;
 }
 export interface ConfigAbouUs {
@@ -13,6 +13,7 @@ export interface ConfigAbouUs {
     name: string;
     des: string;
     top: string;
+    banner: string;
     bottom: string;
     thumb: string;
   };
@@ -22,7 +23,7 @@ export interface Item {
   name: string;
   des: string;
   status: number;
-  file: File
+  file: File;
   sort: string;
 }
 export interface Config {
@@ -30,23 +31,23 @@ export interface Config {
   name: string;
   des: string;
   publish: number;
-  sort: number
+  sort: number;
   image: string;
-  thumb: string
+  thumb: string;
   created_at: Date;
 }
 export interface ListConfig {
-  page?: number
-  limit?: number
-  key?: string
-  publish?: number
+  page?: number;
+  limit?: number;
+  key?: string;
+  publish?: number;
 }
 export interface DataType {
-  id: number
+  id: number;
   name: string;
-  des: string
-  publish: boolean
-  thumb: string
+  des: string;
+  publish: boolean;
+  thumb: string;
   created_at: string;
-  sort: number
+  sort: number;
 }

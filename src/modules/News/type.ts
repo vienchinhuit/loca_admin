@@ -6,14 +6,14 @@ export interface KeyTitleConfig {
   key: string;
   content: {
     name: string;
-    des: string
+    des: string;
   };
   updated_at: Date;
 }
 
 export interface News {
   id?: number;
-  heading: string;
+  name: string;
   description: string;
   file: File;
   content: string;
@@ -24,7 +24,7 @@ export interface News {
 }
 export interface Config {
   id: number;
-  heading: string;
+  name: string;
   publish: number;
   description: string;
   title: string;
@@ -45,10 +45,10 @@ export interface ListConfig {
 export interface DataType {
   key: number;
   id: number;
-  heading: string;
+  name: string;
   description: string;
   image_url: string;
   publish: boolean;
   created_at: string;
-  slug: string
+  slug: string;
 }

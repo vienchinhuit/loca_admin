@@ -60,6 +60,7 @@ export default function CreateNews() {
     if (values && typeof values === "object") {
       (Object.keys(values) as (keyof News)[]).forEach((key) => {
         let value = values[key];
+        console.log(key, value);
         if (key === "file") return;
         if (key === "content") return;
         if (key === "publish" && typeof value === "boolean") {
@@ -73,6 +74,8 @@ export default function CreateNews() {
       formData.append("file", fileImg);
     }
     formData.append("content", editorData);
+    // return console.log(values);
+
     create.mutate(formData, {
       onSuccess: (res) => {
         if (res.data.statusCode == HttpStatusCode.Ok) {
@@ -141,14 +144,14 @@ export default function CreateNews() {
             <Select placeholder="Chọn danh mục">
               {dataListCategory?.map((category) => (
                 <Option key={category.id} value={category.id}>
-                  {category.heading}
+                  {category.name}
                 </Option>
               ))}
             </Select>
           </Form.Item>
           <Form.Item
             label={`Tiêu đề`}
-            name="heading"
+            name="name"
             rules={[{ required: true, message: "Dữ liệu không được để trống" }]}
           >
             <Input />

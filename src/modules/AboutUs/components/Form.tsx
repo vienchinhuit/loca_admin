@@ -5,6 +5,7 @@ import api from "../api";
 import { Loading } from "core/components";
 import { UploadOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
+import TextArea from "antd/es/input/TextArea";
 interface Props {
   id?: string | number;
   onFinish: (values: any) => void;
@@ -121,6 +122,21 @@ export default function FormInput({
               ]}
             >
               <Input />
+            </Form.Item>
+            <Form.Item
+              label={`Mô tả`}
+              name="des"
+              // rules={[
+              //   { required: true, message: "Dữ liệu không được để trống" },
+              // ]}
+            >
+              <TextArea
+                showCount
+                maxLength={350}
+                // onChange={onChange}
+                placeholder="Nội dung"
+                style={{ height: 120, resize: "none" }}
+              />
             </Form.Item>
             <Form.Item
               wrapperCol={{ offset: 8, span: 16 }}

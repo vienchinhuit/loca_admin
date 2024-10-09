@@ -160,9 +160,9 @@ export default function Item() {
           toast.success(res.data.message);
           form.resetFields();
           // resetQuery();
-          refetch()
-          setFileImg(undefined)
-          setImageUrl("")
+          refetch();
+          setFileImg(undefined);
+          setImageUrl("");
         } else {
           const formError = res.data.errors;
           if (formError) {
@@ -204,10 +204,10 @@ export default function Item() {
           setOpen(false);
           toast.success(res.data.message);
           // resetQuery();
-          refetch()
+          refetch();
           setId(undefined);
           setFileImg(undefined);
-          setImageUrl("")
+          setImageUrl("");
           form.resetFields();
         } else {
           const formError = res.data.errors;
@@ -237,11 +237,26 @@ export default function Item() {
   });
 
   const updateSort = useMutation({
-    mutationFn: ({ id, sort }: { id: number | string; sort: number | string }) =>
-      api.updateSort(id, sort),
+    mutationFn: ({
+      id,
+      sort,
+    }: {
+      id: number | string;
+      sort: number | string;
+    }) => api.updateSort(id, sort),
   });
-  const onChangeSort = (id: number, sortValue: number,) => {
-    updateSort.mutate({ id, sort: sortValue });
+  
+  const onChangeSort = (id: number, sortValue: number) => {
+    updateSort.mutate(
+      { id, sort: sortValue },
+      {
+        onSuccess: (res) => {
+          setTimeout(() => {
+            toast.success(res.data.message);
+          }, 1500);
+        },
+      }
+    );
   };
   const updateAllPublishMutation = useMutation({
     mutationFn: (publish: number) =>
@@ -253,7 +268,6 @@ export default function Item() {
       resetQuery();
     },
   });
-
 
   const [option, setOption] = useState<string>("Chọn thao tác");
   const selectedMultipleAction = (values: any) => {

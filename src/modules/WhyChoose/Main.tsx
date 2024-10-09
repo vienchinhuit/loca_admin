@@ -5,7 +5,7 @@ import { txt } from "core/constants";
 import WhyChoose from "./List";
 
 export default function MainWhyChoose() {
-  const titlePage = txt.WHY_CHOOSE_TITLE;
+  const titlePage : string = txt.WHY_CHOOSE_TITLE as string;
   const optionTab = [
     {
       key: "1",

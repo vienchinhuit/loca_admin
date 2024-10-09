@@ -21,6 +21,8 @@ export default function UpdateCategory() {
     staleTime: 0,
   });
   const category = byId?.data.data;
+  console.log(category);
+
   useEffect(() => {
     form.resetFields();
     if (category) {
@@ -29,7 +31,7 @@ export default function UpdateCategory() {
       }
       form.setFieldsValue({
         title: category?.title,
-        heading: category?.heading,
+        name: category?.name,
         description: category?.description,
         meta_keywords: category?.meta_keywords,
         meta_description: category?.meta_description,
@@ -48,9 +50,9 @@ export default function UpdateCategory() {
     } else {
       const result = {
         ...values,
-        publish: values.publish ? values.publish : '1',
-        content: editorData
-      }
+        publish: values.publish ? values.publish : "1",
+        content: editorData,
+      };
       update.mutate(result, {
         onSuccess: (res) => {
           if (res.data.statusCode == HttpStatusCode.Ok) {
@@ -77,10 +79,10 @@ export default function UpdateCategory() {
       });
     }
   };
-  const onCancel = () => { 
-    navigate(`${path.ROUTE_ADMIN}${path.ROUTE_CATEGORY}`)
-    setEditorData('')
-  }
+  const onCancel = () => {
+    navigate(`${path.ROUTE_ADMIN}${path.ROUTE_CATEGORY}`);
+    setEditorData("");
+  };
   return (
     <Form
       name="form"
@@ -95,7 +97,7 @@ export default function UpdateCategory() {
         <div className="col-span-1 w-full">
           <Form.Item
             label={`Tiêu đề`}
-            name="heading"
+            name="name"
             rules={[{ required: true, message: "Dữ liệu không được để trống" }]}
           >
             <Input />
@@ -175,7 +177,6 @@ export default function UpdateCategory() {
               style={{ height: 120, resize: "none" }}
             />
           </Form.Item>
-          
         </div>
       </div>
       <div className="mt-5">
@@ -186,10 +187,7 @@ export default function UpdateCategory() {
         wrapperCol={{ offset: 8, span: 16 }}
         className="text-right mt-[25px]"
       >
-        <Button
-          className="bg-white"
-          onClick={()=>onCancel()}
-        >
+        <Button className="bg-white" onClick={() => onCancel()}>
           Hủy
         </Button>
         <Button htmlType="submit" className="ml-3 bg-green text-white">

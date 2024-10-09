@@ -40,6 +40,10 @@ export default function Search({ queryConfig, path, showDrawer }: Props) {
   const onCancelFilters = () => {
     navigate({
       pathname: path,
+      search: createSearchParams({
+        page: "1",
+        limit: "10"
+      }).toString(),
     });
     setSearch("");
     setSelectedStatus("Trạng thái");

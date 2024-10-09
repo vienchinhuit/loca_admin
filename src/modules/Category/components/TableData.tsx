@@ -48,7 +48,7 @@ export default function TableData({
   const columns: TableColumnsType<DataType> = [
     {
       title: `Tiêu đề`,
-      dataIndex: "heading",
+      dataIndex: "name",
       width: 220,
     },
     {

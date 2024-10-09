@@ -33,7 +33,7 @@ interface Props {
     number,
     unknown
   >;
-  onChangeSort: (id: number, sortValue: number) => void
+  onChangeSort: (id: number, sortValue: number) => void;
   showDrawer: (idEdit?: number) => void;
   isLoading: boolean;
 }
@@ -71,7 +71,13 @@ export default function TableData({
       dataIndex: "sort",
       width: 80,
       render: (_text, record) => (
-        <input defaultValue={record.sort} type="number" onChange={(e)=> onChangeSort(record.id, Number(e.target.value))} className="text-right w-16 py-1 outline-none border-[1px] border-gray-200"/>
+        <input
+          defaultValue={record.sort}
+          type="number"
+          onChange={(e) => onChangeSort(record.id, Number(e.target.value))}
+          className="text-right w-16 py-1 outline-none border-[1px] border-gray-200"
+          min={0}
+        />
       ),
     },
     {

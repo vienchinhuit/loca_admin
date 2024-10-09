@@ -1,7 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { HelmetPage, Pagination } from "core/components";
 import React, { useMemo, useState } from "react";
-import { Function, ModalNotification, MultipleAction, Search } from "./components";
+import {
+  Function,
+  ModalNotification,
+  MultipleAction,
+  Search,
+} from "./components";
 import TableData from "./components/TableData";
 import api from "./api";
 import { toast } from "react-toastify";
@@ -80,11 +85,11 @@ export default function Category() {
       dataList?.map((item) => ({
         key: item.id,
         id: item.id,
-        heading: item.heading,
+        name: item.name,
         description: item.description,
         publish: item.publish === 1 ? true : false,
         created_at: formatDate(item.created_at),
-        slug: item.slug
+        slug: item.slug,
       })) || [],
     [dataList]
   );

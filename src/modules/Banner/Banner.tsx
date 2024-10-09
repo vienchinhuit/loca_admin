@@ -34,7 +34,10 @@ export default function Banner() {
           form.setFieldsValue({
             name: data.content.name,
             des: data.content.des,
-            link: data.content.link,
+            link_1: data.content.link_1,
+            link_2: data.content.link_2,
+            text_link_1: data.content.text_link_1,
+            text_link_2: data.content.text_link_2,
           });
         }
       });
@@ -181,8 +184,38 @@ export default function Banner() {
                 />
               </Form.Item>
               <Form.Item
-                label={`Link`}
-                name="link"
+                label={`Liên kết`}
+                name="link_1"
+                className="mt-1"
+                rules={[
+                  { required: true, message: "Dữ liệu không được để trống" },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label={`Tiêu đề liên kết`}
+                name="text_link_1"
+                className="mt-1"
+                rules={[
+                  { required: true, message: "Dữ liệu không được để trống" },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label={`Liên kết (2)`}
+                name="link_2"
+                className="mt-1"
+                rules={[
+                  { required: true, message: "Dữ liệu không được để trống" },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label={`Tiêu đề liên kết (2)`}
+                name="text_link_2"
                 className="mt-1"
                 rules={[
                   { required: true, message: "Dữ liệu không được để trống" },

@@ -39,7 +39,7 @@ export default function Update() {
       }
       form.setFieldsValue({
         title: news?.title,
-        heading: news?.heading,
+        name: news?.name,
         description: news?.description,
         meta_keywords: news?.meta_keywords,
         meta_description: news?.meta_description,
@@ -164,14 +164,14 @@ export default function Update() {
             <Select placeholder="Chọn danh mục">
               {dataListCategory?.map((category) => (
                 <Option key={category.id} value={category.id}>
-                  {category.heading}
+                  {category.name}
                 </Option>
               ))}
             </Select>
           </Form.Item>
           <Form.Item
             label={`Tiêu đề`}
-            name="heading"
+            name="name"
             rules={[{ required: true, message: "Dữ liệu không được để trống" }]}
           >
             <Input />
