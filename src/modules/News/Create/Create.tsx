@@ -60,7 +60,6 @@ export default function CreateNews() {
     if (values && typeof values === "object") {
       (Object.keys(values) as (keyof News)[]).forEach((key) => {
         let value = values[key];
-        console.log(key, value);
         if (key === "file") return;
         if (key === "content") return;
         if (key === "publish" && typeof value === "boolean") {
@@ -74,7 +73,6 @@ export default function CreateNews() {
       formData.append("file", fileImg);
     }
     formData.append("content", editorData);
-    // return console.log(values);
 
     create.mutate(formData, {
       onSuccess: (res) => {

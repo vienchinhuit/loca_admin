@@ -184,7 +184,7 @@ export default function Banner() {
                 />
               </Form.Item>
               <Form.Item
-                label={`Liên kết`}
+                label={`Link 1`}
                 name="link_1"
                 className="mt-1"
                 rules={[
@@ -194,7 +194,7 @@ export default function Banner() {
                 <Input />
               </Form.Item>
               <Form.Item
-                label={`Tiêu đề liên kết`}
+                label={`Tên link 1`}
                 name="text_link_1"
                 className="mt-1"
                 rules={[
@@ -204,7 +204,7 @@ export default function Banner() {
                 <Input />
               </Form.Item>
               <Form.Item
-                label={`Liên kết (2)`}
+                label={`Link 2`}
                 name="link_2"
                 className="mt-1"
                 rules={[
@@ -214,7 +214,7 @@ export default function Banner() {
                 <Input />
               </Form.Item>
               <Form.Item
-                label={`Tiêu đề liên kết (2)`}
+                label={`Tên link 2`}
                 name="text_link_2"
                 className="mt-1"
                 rules={[

@@ -21,7 +21,6 @@ export default function UpdateCategory() {
     staleTime: 0,
   });
   const category = byId?.data.data;
-  console.log(category);
 
   useEffect(() => {
     form.resetFields();

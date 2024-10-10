@@ -12,9 +12,9 @@ const { TextArea } = Input;
 export default function Driver() {
   const titlePage = txt.INTRODUCE_TITLE;
   const [imageUrl, setImageUrl] = useState<string>("");
-  // const [bannerMobile, setBannerMobile] = useState<string>("");
+  const [bannerMobile, setBannerMobile] = useState<string>("");
   const [fileImg, setFileImg] = useState<File>();
-  // const [fileBannerMobile, setFileBannerMobile] = useState<File>();
+  const [fileBannerMobile, setFileBannerMobile] = useState<File>();
   const [form] = Form.useForm();
   const queryById = "driver";
   const { data: byId, isLoading } = useQuery({
@@ -31,7 +31,12 @@ export default function Driver() {
       dataById?.map((data: DriverType) => {
         if (data.key === "DRIVER") {
           setImageUrl(
-            `${import.meta.env.VITE_BASE_URL_IMAGE}/${data.content.thumb}`
+            `${import.meta.env.VITE_BASE_URL_IMAGE}/${data.content.image}`
+          );
+          setBannerMobile(
+            `${import.meta.env.VITE_BASE_URL_IMAGE}/${
+              data.content.banner_mobile
+            }`
           );
           form.setFieldsValue({
             name: data.content.name,
@@ -64,26 +69,26 @@ export default function Driver() {
     return false; // Ngăn không gửi file lên server
   };
 
-  // const handleUploadbannerMobile = (file: File) => {
-  //   // Kiểm tra định dạng file (chỉ cho phép PNG và JPG)
-  //   const validTypes = ["image/png", "image/jpeg"];
-  //   if (!validTypes.includes(file.type)) {
-  //     // Định dạng không hợp lệ, đặt lỗi
-  //     toast.error("Chỉ cho phép tải lên các tệp PNG hoặc JPG.");
-  //     return false; // Ngăn không cho tải file
-  //   }
+  const handleUploadbannerMobile = (file: File) => {
+    // Kiểm tra định dạng file (chỉ cho phép PNG và JPG)
+    const validTypes = ["image/png", "image/jpeg"];
+    if (!validTypes.includes(file.type)) {
+      // Định dạng không hợp lệ, đặt lỗi
+      toast.error("Chỉ cho phép tải lên các tệp PNG hoặc JPG.");
+      return false; // Ngăn không cho tải file
+    }
 
-  //   // Nếu định dạng hợp lệ, tiếp tục đọc file
-  //   setFileBannerMobile(file);
+    // Nếu định dạng hợp lệ, tiếp tục đọc file
+    setFileBannerMobile(file);
 
-  //   // Đọc file ảnh dưới dạng base64 và lưu vào state để hiển thị
-  //   const reader = new FileReader();
-  //   reader.onload = () => {
-  //     setBannerMobile(reader.result as string); // Lưu kết quả base64 của ảnh
-  //   };
-  //   reader.readAsDataURL(file as unknown as Blob); // Chuyển đổi file sang Blob để đọc
-  //   return false; // Ngăn không gửi file lên server
-  // };
+    // Đọc file ảnh dưới dạng base64 và lưu vào state để hiển thị
+    const reader = new FileReader();
+    reader.onload = () => {
+      setBannerMobile(reader.result as string); // Lưu kết quả base64 của ảnh
+    };
+    reader.readAsDataURL(file as unknown as Blob); // Chuyển đổi file sang Blob để đọc
+    return false; // Ngăn không gửi file lên server
+  };
 
   const updateMutation = useMutation({
     mutationFn: (body: any) => api.update(body),
@@ -101,9 +106,9 @@ export default function Driver() {
     if (fileImg) {
       formData.append("file", fileImg);
     }
-    // if (fileBannerMobile) {
-    //   formData.append("banner_mobile", fileBannerMobile);
-    // }
+    if (fileBannerMobile) {
+      formData.append("banner_mobile", fileBannerMobile);
+    }
     updateMutation.mutate(formData, {
       onSuccess: (res) => {
         // if (res.data.statusCode == HttpStatusCode.Ok) {
@@ -135,10 +140,10 @@ export default function Driver() {
         </div>
       ) : (
         <div>
-          {/* <div className="col-span-1 text-center w-full">
+          <div className="col-span-1 text-center w-full">
             <div className="flex justify-start py-1">
               <p className="text-gray-400 text-md">
-                Kích thước ảnh (900 x 390px)
+                Kích thước ảnh banner (900 x 390px)
               </p>
             </div>
             <div className="border-[1px] border-gray-300 h-[400px] flex items-center justify-center">
@@ -162,21 +167,21 @@ export default function Driver() {
                 <UploadOutlined /> Chọn ảnh
               </button>
             </Upload>
-          </div> */}
+          </div>
           <div className="grid grid-cols-2 gap-5">
             <div className="col-span-1 text-center w-full">
               <div className="flex justify-start py-1">
                 <p className="text-gray-400 text-md">
-                  Kích thước ảnh (900 x 390px)
+                  Kích thước ảnh banner mobile (500 x auto)
                 </p>
               </div>
               <div className="border-[1px] border-gray-300 h-[400px] flex items-center justify-center">
-                {imageUrl && (
+                {bannerMobile && (
                   <Image
                     width="80%"
                     height="95%"
                     className="object-contain"
-                    src={imageUrl} // URL của ảnh đã chọn
+                    src={bannerMobile} // URL của ảnh đã chọn
                     alt="Uploaded Image"
                   />
                 )}
@@ -185,7 +190,7 @@ export default function Driver() {
                 // listType="picture-card"
                 className="w-full"
                 showUploadList={false} // Ẩn danh sách file được tải lên
-                beforeUpload={handleUpload} // Xử lý khi ảnh được chọn
+                beforeUpload={handleUploadbannerMobile} // Xử lý khi ảnh được chọn
               >
                 <button className="w-[100%]">
                   <UploadOutlined /> Chọn ảnh

@@ -156,7 +156,7 @@ export default function TableData({
     <div className="table w-full mt-3 relative">
       <Table
         rowSelection={rowSelection}
-        // bordered={true}
+        bordered={true}
         columns={columns}
         dataSource={dataSource}
         pagination={false}
